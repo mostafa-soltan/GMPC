@@ -163,15 +163,16 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                         <div>
                             <h5 class="head pl-2">Editors-in-Chief </h5>
                             @if(count($journal->editors))
-                            @foreach($journal->editors as $editor)
                                 <ul>
-                                    <li>
-                                        <p><strong>@if($editor->chief_in_editor == 1) {{ $editor->name }} @endif</strong> <br>
-                                            @if($editor->chief_in_editor == 1) {{ $editor->affiliation }} @endif
-                                        </p>
-                                    </li>
+                                    @foreach($journal->editors as $editor)
+                                    <?php
+                                    if ($editor->chief_in_editor == 1)
+                                        {
+                                            echo '<li><p><strong>' . $editor->name . '</strong> <br>' . $editor->affiliation . '</p></li>';
+                                        }
+                                    ?>
+                                    @endforeach
                                 </ul>
-                            @endforeach
                             @else
                                 <p>No Editors Found.</p>
                             @endif
@@ -181,15 +182,20 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                             <div class="row">
                                 @if(count($journal->editors))
                                 @foreach($journal->editors as $editor)
-                                    <div class="col-md-6">
-                                        <ul>
-                                            <li>
-                                                <p><strong>@if($editor->chief_in_editor == 0) {{ $editor->name }} @endif</strong> <br>
-                                                    @if($editor->chief_in_editor == 0) {{ $editor->affiliation }} @endif
-                                                </p>
-                                            </li>
-                                        </ul>
-                                    </div>
+
+                                            <?php
+                                                if ($editor->chief_in_editor == 0)
+                                                {
+                                                    echo '<div class="col-md-6">
+                                                              <ul>
+                                                                 <li>
+                                                                    <p><strong>' . $editor->name . '</strong> <br>' . $editor->affiliation . '</p>
+                                                                 </li>
+                                                               </ul>
+                                                          </div>';
+                                                }
+                                            ?>
+
                                 @endforeach
                                 @else
                                     <p>No Editors Found.</p>
