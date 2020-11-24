@@ -69,26 +69,25 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                 </button>
                 <div class="collapse navbar-collapse" id="J-navbar">
                     <ul class="navbar-nav m-auto align-items-center">
-                        <li class="nav-item active">
-                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal) }}">Journal <span
-                                    class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal) }}">Journal</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="{{ route('scope', $journal) }}">Aims & Scope</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="articles.html">Articles</a>
+                            <a class="nav-link text-uppercase" href="{{ route('articles', $journal) }}">Articles</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="{{ route('researchtopics', $journal) }}">Research Topics</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle text-uppercase" href="" id="navbarDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                For Authors
+                                For Authors <span class="sr-only">(current)</span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('agl', $journal) }}">Author guidlines</a>
+                                <a class="dropdown-item active" href="{{ route('agl', $journal) }}">Author guidlines</a>
                                 <a class="dropdown-item" href="{{ route('ares', $journal) }}">Author resources</a>
                                 <a class="dropdown-item" href="https://www.ejmanager.com/my/gjvr/index.php" target="blank">Submit</a>
                             </div>
@@ -125,26 +124,35 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                                 <img src="/images/default.jpg" alt="journal-cover" class="img-fluid img-thumbnail">
                             @endif
                         </div>
-                        <div class="volumes mt-3 p-2 effect3">
-                            <h5>Browse volumes </h5>
-                            <p class="vol-btn">
-                                <button class="btn btn-info" type="button" data-toggle="collapse"
-                                        data-target="#collapseExample" aria-expanded="false"
-                                        aria-controls="collapseExample">
-                                    Vol. 1 (2021) <i class="fas fa-plus fa-minus"></i>
-                                </button>
-                            </p>
-                            <div class="collapse" id="collapseExample">
-                                <div class="card card-body">
-                                    <ul>
-                                        <li><a href="issue.html">Issue 1</a></li>
-                                        <li><a href="issue.html">Issue 2</a></li>
-                                        <li><a href="issue.html">Issue 3</a></li>
-                                        <li><a href="issue.html">Issue 4</a></li>
-                                    </ul>
-                                </div>
+                        @if(count($volumes))
+                            <div class="volumes mt-3 p-2 effect3">
+                                <h5>Browse volumes </h5>
+                                @foreach($volumes as $jvolume)
+                                    <p class="vol-btn">
+                                        <button class="btn btn-info" type="button" data-toggle="collapse"
+                                                data-target="#collapseExample{{ $jvolume->volume_no }}" aria-expanded="false"
+                                                aria-controls="collapseExample">
+                                            Vol. {{ $jvolume->volume_no }} ({{ $jvolume->year }}) <i class="fas fa-plus fa-minus"></i>
+                                        </button>
+                                    </p>
+                                    <div class="collapse" id="collapseExample{{ $jvolume->volume_no }}">
+                                        @if(count($issues))
+                                            <div class="card card-body">
+                                                <ul>
+                                                    @foreach($issues as $jissue)
+                                                        <li><a href="/journal/{{ $journal->id }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @else
+                                            <p>No Issues Found.</p>
+                                        @endif
+                                    </div>
+                                @endforeach
                             </div>
-                        </div>
+                        @else
+                            <p>No Volumes Found.</p>
+                        @endif
                         <div class="numbers mt-3 p-2 mb-3 effect3">
                             <h5>Journal Metrics </h5>
                             <div class="pl-3">

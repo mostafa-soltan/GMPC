@@ -50,6 +50,11 @@ Route::get('/researchtopics/{journal}', 'User\JournalController@researchTopics')
 
 Route::get('/researchtopics/{journal}/single/{topic}', 'User\JournalController@singleTopic')->name('singletopic');
 
+Route::get('/articles/{journal}', 'User\JournalController@articles')->name('articles');
+
+Route::get('/articles/{journal}/single/{article}', 'User\JournalController@singleArticle')->name('singlearticle');
+
+Route::get('journal/{journal}/volume/{volume}/issue/{issue}', 'User\JournalController@issue')->name('issue');
 
 /*** Admin Routes ***/
 

@@ -5,6 +5,7 @@ use App\Lnew;
 use App\Researchtopic;
 
 $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
+$topic_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('rtopic_id', $topic->id )->paginate(4);
 ?>
 
 @extends('layouts.user_layout')
@@ -77,7 +78,7 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                             <a class="nav-link text-uppercase" href="{{ route('scope', $journal) }}">Aims & Scope</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="articles.html">Articles</a>
+                            <a class="nav-link text-uppercase" href="{{ route('articles', $journal) }}">Articles</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="{{ route('researchtopics', $journal) }}">Research Topics</a>
@@ -125,26 +126,35 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                                 <img src="/images/default.jpg" alt="journal-cover" class="img-fluid img-thumbnail">
                             @endif
                         </div>
-                        <div class="volumes mt-3 p-2 effect3">
-                            <h5>Browse volumes </h5>
-                            <p class="vol-btn">
-                                <button class="btn btn-info" type="button" data-toggle="collapse"
-                                        data-target="#collapseExample" aria-expanded="false"
-                                        aria-controls="collapseExample">
-                                    vol. 1 (2021) <i class="fas fa-plus fa-minus"></i>
-                                </button>
-                            </p>
-                            <div class="collapse" id="collapseExample">
-                                <div class="card card-body">
-                                    <ul>
-                                        <li><a href="issue.html">Issue 1</a></li>
-                                        <li><a href="issue.html">Issue 2</a></li>
-                                        <li><a href="issue.html">Issue 3</a></li>
-                                        <li><a href="issue.html">Issue 4</a></li>
-                                    </ul>
-                                </div>
+                        @if(count($volumes))
+                            <div class="volumes mt-3 p-2 effect3">
+                                <h5>Browse volumes </h5>
+                                @foreach($volumes as $jvolume)
+                                    <p class="vol-btn">
+                                        <button class="btn btn-info" type="button" data-toggle="collapse"
+                                                data-target="#collapseExample{{ $jvolume->volume_no }}" aria-expanded="false"
+                                                aria-controls="collapseExample">
+                                            Vol. {{ $jvolume->volume_no }} ({{ $jvolume->year }}) <i class="fas fa-plus fa-minus"></i>
+                                        </button>
+                                    </p>
+                                    <div class="collapse" id="collapseExample{{ $jvolume->volume_no }}">
+                                        @if(count($issues))
+                                            <div class="card card-body">
+                                                <ul>
+                                                    @foreach($issues as $jissue)
+                                                        <li><a href="/journal/{{ $journal->id }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @else
+                                            <p>No Issues Found.</p>
+                                        @endif
+                                    </div>
+                                @endforeach
                             </div>
-                        </div>
+                        @else
+                            <p>No Volumes Found.</p>
+                        @endif
                         <div class="numbers mt-3 p-2 mb-3 effect3">
                             <h5>Journal Metrics </h5>
                             <div class="pl-3">
@@ -183,52 +193,30 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                                     </div>
                                     <div class="tab-pane fade p-4" id="Articles" role="tabpanel"
                                          aria-labelledby="Articles-tab">
+
                                         <div class="row">
+                                            @if(count($topic_articles))
+                                            @foreach($topic_articles as $article)
                                             <div>
                                                 <div class="article mb-4">
-                                                    <h5><a href="single-article.html">Lorem ipsum dolor sit amet
-                                                            consectetur,
-                                                            adipisicing elit.
-                                                            Exercitationem.</a></h5>
-                                                    <p class="m-0">Authors: --</p>
+                                                    <h5><a href="/articles/{{ $journal->id }}/single/{{ $article->id }}">{{ $article->title }}</a></h5>
+                                                    <p class="m-0">Authors: {{ $article->authors }}</p>
                                                     <p>
-                                                        <em>Ger. J. of Vet. Res.</em> 2021. <a href="issue.html"
-                                                                                               class="main-color">
-                                                            vol. 1, Iss. 1,</a> pp:1-5 <br>Doi: .....
+                                                        <em>{{ $article->journal->name }}</em> {{ $article->year }}.
+                                                        <a href="/journal/{{ $article->journal->id }}/volume/{{ $article->volume }}/issue/{{ $article->issue }}" class="main-color">vol. {{ $article->volume }}, Iss. {{ $article->issue }},</a> pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi:{{ $article->doi }}
                                                     </p>
                                                     <p>views: <span class="main-color">100</span></p>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <div class="article mb-4">
-                                                    <h5><a href="single-article.html">Lorem ipsum dolor sit amet
-                                                            consectetur,
-                                                            adipisicing elit.
-                                                            Exercitationem.</a></h5>
-                                                    <p class="m-0">Authors: --</p>
-                                                    <p>
-                                                        <em>Ger. J. of Vet. Res.</em> 2021. <a href="issue.html"
-                                                                                               class="main-color">
-                                                            vol. 1, Iss. 1,</a> pp:1-5 <br>Doi: .....
-                                                    </p>
-                                                    <p>views: <span class="main-color">100</span></p>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="article mb-4">
-                                                    <h5><a href="single-article.html">Lorem ipsum dolor sit amet
-                                                            consectetur,
-                                                            adipisicing elit.
-                                                            Exercitationem.</a></h5>
-                                                    <p class="m-0">Authors: --</p>
-                                                    <p>
-                                                        <em>Ger. J. of Vet. Res.</em> 2021. <a href="issue.html"
-                                                                                               class="main-color">
-                                                            vol. 1, Iss. 1,</a> pp:1-5 <br>Doi: .....
-                                                    </p>
-                                                    <p>views: <span class="main-color">100</span></p>
-                                                </div>
-                                            </div>
+                                            @endforeach
+                                            @else
+                                            <p>No Articles Found.</p>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <nav class="d-flex justify-content-end" aria-label="...">
+                                                {{ $topic_articles->links() }}
+                                            </nav>
                                         </div>
                                     </div>
                                 </div>

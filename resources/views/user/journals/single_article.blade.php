@@ -5,6 +5,9 @@ use App\Lnew;
 use App\Researchtopic;
 
 $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
+$articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('status', 1)->paginate(4);
+$inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('status', 0)->paginate(4);
+
 ?>
 
 @extends('layouts.user_layout')
@@ -69,8 +72,9 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                 </button>
                 <div class="collapse navbar-collapse" id="J-navbar">
                     <ul class="navbar-nav m-auto align-items-center">
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal) }}">Journal</a>
+                        <li class="nav-item active">
+                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal) }}">Journal <span
+                                    class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="{{ route('scope', $journal) }}">Aims & Scope</a>
@@ -92,8 +96,8 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                                 <a class="dropdown-item" href="https://www.ejmanager.com/my/gjvr/index.php" target="blank">Submit</a>
                             </div>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link text-uppercase" href="{{ route('editorialboard', $journal) }}">editorial board <span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase" href="{{ route('editorialboard', $journal) }}">editorial board</a>
                         </li>
                         <div class="social">
                             <a href="https://www.facebook.com/GMPC-104059058151398/?ti=as" title="Facebook"
@@ -112,7 +116,7 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
             </div>
         </nav>
     </header>
-    <main>
+    <main class="s-art">
         <div class="container">
             <div class="row pt-5">
                 <div class="col-md-3">
@@ -140,7 +144,7 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                                             <div class="card card-body">
                                                 <ul>
                                                     @foreach($issues as $jissue)
-                                                        <li><a href="/journal/{{ $journal->id }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                        <li><a href="/journal/{{ $journal->id }}/volume/{{ $article->volume }}/issue/{{ $article->issue }}">Issue {{ $jissue->issue_no }}</a></li>
                                                     @endforeach
                                                 </ul>
                                             </div>
@@ -168,48 +172,34 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                 </div>
                 <div class="col-md-9">
                     <article>
-                        <div>
-                            <h5 class="head pl-2">Editors-in-Chief </h5>
-                            @if(count($journal->editors))
-                                <ul>
-                                    @foreach($journal->editors as $editor)
-                                    <?php
-                                    if ($editor->chief_in_editor == 1)
-                                        {
-                                            echo '<li><p><strong>' . $editor->name . '</strong> <br>' . $editor->affiliation . '</p></li>';
-                                        }
-                                    ?>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <p>No Editors Found.</p>
-                            @endif
-                        </div>
-                        <div>
-                            <h5 class="head pl-2">Editors </h5>
-                            <div class="row">
-                                @if(count($journal->editors))
-                                @foreach($journal->editors as $editor)
-
-                                            <?php
-                                                if ($editor->chief_in_editor == 0)
-                                                {
-                                                    echo '<div class="col-md-6">
-                                                              <ul>
-                                                                 <li>
-                                                                    <p><strong>' . $editor->name . '</strong> <br>' . $editor->affiliation . '</p>
-                                                                 </li>
-                                                               </ul>
-                                                          </div>';
-                                                }
-                                            ?>
-
-                                @endforeach
-                                @else
-                                    <p>No Editors Found.</p>
-                                @endif
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="mb-0">{{ $article->title }}</h5>
+                                <p class="m-0">Authors: {{ $article->authors }}</p>
+                                <p>
+                                    <em>{{ $article->journal->name }}</em> {{ $article->year }}. <a href="/journal/{{ $journal->id }}/volume/{{ $article->volume }}/issue/{{ $article->issue }}" class="main-color">
+                                        vol. {{ $article->volume }},
+                                        Iss. {{ $article->issue }}</a> pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi: {{ $article->doi }}
+                                </p>
+                            </div>
+                            <div>
+                                <a class="a2a_dd main-color" href="https://www.addtoany.com/share"><i
+                                        class="fas fa-share-alt-square" title="Share"></i></a>
+                                <a href="{{ $article->link }}" title="Read">
+                                    <i class="fab fa-readme"></i>
+                                </a>
+                                <a href="{{ $article->link }}" download="file name" title="Download">
+                                    <i class="fas fa-download"></i>
+                                </a>
                             </div>
                         </div>
+                        <h6 class="mb-0">Abstract:</h6>
+                        <p>{{ $article->abstract }}</p>
+                        <h6 class="mb-0">Keywords:</h6>
+                        <p>{{ $article->keywords }}</p>
+                        <h6 class="mb-0">Statistics:</h6>
+                        <p>Article View: <span class="main-color">100</span> <br>
+                            PDF Download: <span class="main-color">100</span></p>
                     </article>
                 </div>
             </div>

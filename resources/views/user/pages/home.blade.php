@@ -153,13 +153,13 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                 <nav>
                     <div class="nav nav-tabs justify-content-center justify-content-md-end align-items-end" id="nav-tab2" role="tablist">
                         <h4 class="pl-2 mr-5 d-none d-sm-inline mr-auto">Featured</h4>
-                        <a class="nav-link active" id="nav-Articles-tab" data-toggle="tab" href="#nav-Articles" role="tab" aria-controls="nav-profile" aria-selected="false">Articles</a>
+                        <a class="nav-link" id="nav-Articles-tab" data-toggle="tab" href="#nav-Articles" role="tab" aria-controls="nav-profile" aria-selected="false">Articles</a>
                         <a class="nav-link" id="nav-Research-tab" data-toggle="tab" href="#nav-Research" role="tab" aria-controls="nav-profile" aria-selected="false">Research Topics</a>
-                        <a class="nav-link" id="nav-Blog-tab" data-toggle="tab" href="#nav-Blog" role="tab" aria-controls="nav-profile" aria-selected="false">Latest news</a>
+                        <a class="nav-link active" id="nav-Blog-tab" data-toggle="tab" href="#nav-Blog" role="tab" aria-controls="nav-profile" aria-selected="false">Latest news</a>
                     </div>
                 </nav>
             <div class="tab-content" id="nav-tabContent2">
-                <div class="tab-pane fade show active pt-4" id="nav-Articles" role="tabpanel"
+                <div class="tab-pane fade pt-4" id="nav-Articles" role="tabpanel"
                      aria-labelledby="nav-Articles-tab">
                     <!-- Articles Pane -->
                     <div class="row">
@@ -171,14 +171,14 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                                         <div class="card-body">
                                             <h6 class="card-title mb-0">
                                                 <!-- daynamic href & title & abstract-->
-                                                <a href="vet-j/single-article.html">{{ $article->title }}</a>
+                                                <a href="/articles/{{ $article->journal->id }}/single/{{ $article->id }}">{{ $article->title }}</a>
                                             </h6>
-                                            <p class="main-color"><em>{{ $article->journal->name }}</em> {{ $article->year }}. <a href="vet-j/issue.html"
+                                            <p class="main-color"><em>{{ $article->journal->name }}</em> {{ $article->year }}. <a href="/journal/{{ $article->journal->id }}/volume/{{ $article->volume }}/issue/{{ $article->issue }}"
                                                                                                  class="main-color"> vol. {{ $article->volume }},
                                                     Iss. {{ $article->issue }}</a> pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi: {{ $article->doi }}</p>
                                             <p class="card-text" title="{{ $article->abstract }}">
                                                 {{ \Str::limit($article->abstract, 50) }}
-                                            </p><a href="vet-j/single-article.html"><small class="main-color">Read
+                                            </p><a href="/articles/{{ $article->journal->id }}/single/{{ $article->id }}"><small class="main-color">Read
                                                     More</small></a>
                                         </div>
                                     </div>
@@ -225,7 +225,7 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                     </div>
                     <!-- Research Topics Pane -->
                 </div>
-                <div class="tab-pane fade pt-4" id="nav-Blog" role="tabpanel" aria-labelledby="nav-Blog-tab">
+                <div class="tab-pane fade show active pt-4" id="nav-Blog" role="tabpanel" aria-labelledby="nav-Blog-tab">
                     <!-- Latest news Pane -->
                     <div class="row">
                         @if($latestnews->count())

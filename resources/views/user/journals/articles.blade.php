@@ -5,6 +5,9 @@ use App\Lnew;
 use App\Researchtopic;
 
 $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
+$articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('status', 1)->paginate(4);
+$inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('status', 0)->paginate(4);
+
 ?>
 
 @extends('layouts.user_layout')
@@ -75,8 +78,9 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="{{ route('scope', $journal) }}">Aims & Scope</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('articles', $journal) }}">Articles</a>
+                        <li class="nav-item active">
+                            <a class="nav-link text-uppercase" href="{{ route('articles', $journal) }}">Articles <span
+                                    class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="{{ route('researchtopics', $journal) }}">Research Topics</a>
@@ -92,8 +96,8 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                                 <a class="dropdown-item" href="https://www.ejmanager.com/my/gjvr/index.php" target="blank">Submit</a>
                             </div>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link text-uppercase" href="{{ route('editorialboard', $journal) }}">editorial board <span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase" href="{{ route('editorialboard', $journal) }}">editorial board</a>
                         </li>
                         <div class="social">
                             <a href="https://www.facebook.com/GMPC-104059058151398/?ti=as" title="Facebook"
@@ -112,7 +116,7 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
             </div>
         </nav>
     </header>
-    <main>
+    <main class="articles">
         <div class="container">
             <div class="row pt-5">
                 <div class="col-md-3">
@@ -168,47 +172,116 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                 </div>
                 <div class="col-md-9">
                     <article>
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-link active" id="most-viewd-tab" data-toggle="tab" href="#most-viewd"
+                                   role="tab" aria-controls="nav-home" aria-selected="true">Most Viewed</a>
+                                <a class="nav-link" id="most-recent-tab" data-toggle="tab" href="#most-recent"
+                                   role="tab" aria-controls="nav-profile" aria-selected="false">Most Recent</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active p-4" id="most-viewd" role="tabpanel"
+                                 aria-labelledby="most-viewd-tab">
+                                <div class="row">
+                                    <div>
+                                        <div class="article mb-4">
+                                            <h5 class="mb-0"><a href="single-article.html">Lorem ipsum dolor sit amet
+                                                    consectetur,
+                                                    adipisicing elit.
+                                                    Exercitationem.</a></h5>
+                                            <p class="m-0">Authors: --</p>
+                                            <p>
+                                                <em>Ger. J. of Vet. Res.</em> 2021. <a href="issue.html"
+                                                                                       class="main-color">
+                                                    vol. 1, Iss. 1,</a> pp:1-5 <br>Doi: .....
+                                            </p>
+                                            <p>views:<span class="views">100</span></p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="article mb-4">
+                                            <h5 class="mb-0"><a href="single-article.html">Lorem ipsum dolor sit amet
+                                                    consectetur,
+                                                    adipisicing elit.
+                                                    Exercitationem.</a></h5>
+                                            <p class="m-0">Authors: --</p>
+                                            <p>
+                                                <em>Ger. J. of Vet. Res.</em> 2021. <a href="issue.html"
+                                                                                       class="main-color">
+                                                    vol. 1, Iss. 1,</a> pp:1-5 <br>Doi: .....
+                                            </p>
+                                            <p>views: <span class="main-color">100</span></p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="article mb-4">
+                                            <h5 class="mb-0"><a href="single-article.html">Lorem ipsum dolor sit amet
+                                                    consectetur,
+                                                    adipisicing elit.
+                                                    Exercitationem.</a></h5>
+                                            <p class="m-0">Authors: --</p>
+                                            <p>
+                                                <em>Ger. J. of Vet. Res.</em> 2021. <a href="issue.html"
+                                                                                       class="main-color">
+                                                    vol. 1, Iss. 1,</a> pp:1-5 <br>Doi: .....
+                                            </p>
+                                            <p>views: <span class="main-color">100</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade p-4" id="most-recent" role="tabpanel"
+                                 aria-labelledby="most-recent-tab">
+                                <div class="row">
+                                    @if(count($articles))
+                                    <div>
+                                        @foreach($articles as $article)
+                                        <div class="article mb-4">
+                                            <h5 class="mb-0"><a href="/articles/{{ $journal->id }}/single/{{ $article->id }}">{{ $article->title }}</a></h5>
+                                            <p class="m-0">Authors: {{ $article->authors }}</p>
+                                            <p>
+                                                <em>{{ $article->journal->name }}</em> {{ $article->year }}.
+                                                <a href="/journal/{{ $article->journal->id }}/volume/{{ $article->volume }}/issue/{{ $article->issue }}" class="main-color">vol. {{ $article->volume }}, Iss. {{ $article->issue }},</a>
+                                                pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi: {{ $article->doi }}
+                                            </p>
+                                            <p>views: <span class="main-color">100</span></p>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                    @else
+                                    <p>No Articles Found.</p>
+                                    @endif
+                                </div>
+                                <div>
+                                    <nav class="d-flex justify-content-end" aria-label="...">
+                                        {{ $articles->links() }}
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
                         <div>
-                            <h5 class="head pl-2">Editors-in-Chief </h5>
-                            @if(count($journal->editors))
-                                <ul>
-                                    @foreach($journal->editors as $editor)
-                                    <?php
-                                    if ($editor->chief_in_editor == 1)
-                                        {
-                                            echo '<li><p><strong>' . $editor->name . '</strong> <br>' . $editor->affiliation . '</p></li>';
-                                        }
-                                    ?>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <p>No Editors Found.</p>
+                            <h5 class="head pl-2">Articles In-Press </h5>
+                            @if(count($inpress_articles))
+                            <div class="pl-3">
+                                @foreach($inpress_articles as $inpress_article)
+                                <div class="article mb-4">
+                                    <h5 class="mb-0"><a href="/articles/{{ $journal->id }}/single/{{ $inpress_article->id }}">{{ $inpress_article->title }}</a></h5>
+                                    <p class="m-0">Authors: {{ $inpress_article->authors }}</p>
+                                    <p>
+                                        <em>{{ $inpress_article->journal->name }}</em> {{ $inpress_article->year }}
+                                        <br>Doi: {{ $inpress_article->doi }}
+                                    </p>
+                                    <p>views: <span class="main-color">100</span></p>
+                                </div>
+                                @endforeach
+                            </div>
                             @endif
                         </div>
                         <div>
-                            <h5 class="head pl-2">Editors </h5>
-                            <div class="row">
-                                @if(count($journal->editors))
-                                @foreach($journal->editors as $editor)
-
-                                            <?php
-                                                if ($editor->chief_in_editor == 0)
-                                                {
-                                                    echo '<div class="col-md-6">
-                                                              <ul>
-                                                                 <li>
-                                                                    <p><strong>' . $editor->name . '</strong> <br>' . $editor->affiliation . '</p>
-                                                                 </li>
-                                                               </ul>
-                                                          </div>';
-                                                }
-                                            ?>
-
-                                @endforeach
-                                @else
-                                    <p>No Editors Found.</p>
-                                @endif
-                            </div>
+                            <nav class="d-flex justify-content-end" aria-label="...">
+                                {{ $inpress_articles->links() }}
+                            </nav>
                         </div>
                     </article>
                 </div>
