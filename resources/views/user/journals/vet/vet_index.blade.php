@@ -1,8 +1,8 @@
 <?php
-use App\Article;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
 
 $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
 ?>
@@ -49,8 +49,8 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                         </li>
                     </ul>
                     <a href="https://www.ejmanager.com/my/gjvr/index.php" target="blank"  class="btn btn-primary mr-2">SUBMIT</a>
-                    <form action="../search.html" method="get" class="form-inline my-2 my-lg-0 relative">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                    <form action="{{ route('search') }}" method="get" class="form-inline my-2 my-lg-0 relative">
+                        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search" />
                         <button class="btn my-2 my-sm-0 absolute" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -157,12 +157,12 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                         <div class="numbers mt-3 p-2 mb-3 effect3">
                             <h5>Journal Metrics </h5>
                             <div class="pl-3">
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Visitors </div>
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Article Views </div>
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Article Downloads </div>
+                                <div class="counter"><span class="timer" data-from="0" data-to="{{ $journal->views_count }}" data-speed="5000"
+                                                           data-refresh-interval="50">{{ $journal->views_count }}</span> Visitors </div>
+                                <!--<div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
+                                                           data-refresh-interval="50">0</span> Article Views </div>-->
+                                <!--<div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
+                                                           data-refresh-interval="50">0</span> Article Downloads </div>-->
                             </div>
                         </div>
                     </aside>

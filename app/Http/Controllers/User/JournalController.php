@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Article;
-use App\Editor;
-use App\Issue;
-use App\Journal;
-use App\Researchtopic;
-use App\Volume;
+use App\Models\Article;
+use App\Models\Editor;
+use App\Models\Issue;
+use App\Models\Journal;
+use App\Models\Researchtopic;
+use App\Models\Volume;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
+use phpDocumentor\Reflection\DocBlock\Tags\See;
 
 class JournalController extends Controller
 {
     public function index(Journal $journal)
     {
+        $journalKey = 'journal_' . $journal->id;
+        if (!Session::has($journalKey)){
+            $journal->increment('views_count');
+            Session::put($journalKey,1);
+        }
+
         if ($journal->name == 'German Journal Of Veterinary Research')
         {
             $volumes = Volume::all();
@@ -131,6 +139,11 @@ class JournalController extends Controller
 
     public function singleArticle(Journal $journal, Article $article)
     {
+        $articleKey = 'article_' . $article->id;
+        if (!Session::has($articleKey)){
+            $article->increment('views_count');
+            Session::put($articleKey,1);
+        }
         $volumes = Volume::all();
         $issues = Issue::all();
         return view('user.journals.single_article', compact('article', 'journal', 'volumes', 'issues'));

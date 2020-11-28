@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('abstract') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-abstract">{{ __('Abstract') }}</label>
-                                    <textarea name="abstract" id="input-abstract" class="form-control form-control-alternative{{ $errors->has('abstract') ? ' is-invalid' : '' }}" placeholder="{{ __('Abstract') }}" required autofocus>
+                                    <textarea name="abstract" id="editor" class="form-control form-control-alternative{{ $errors->has('abstract') ? ' is-invalid' : '' }}" placeholder="{{ __('Abstract') }}" required autofocus>
                                         {{ $article->abstract }}
                                     </textarea>
 
@@ -69,7 +69,7 @@
                                 <div class="form-group{{ $errors->has('journal_id') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-journal_id">{{ __('Journal') }}</label>
                                     <select name="journal_id" class="form-control" required>
-                                        @foreach(App\Journal::all()->where('status', 1) as $journal)
+                                        @foreach(App\Models\Journal::all()->where('status', 1) as $journal)
                                             <option <?php if ($article->journal->id == $journal->id){echo 'selected';} ?> value="{{ $journal->id }}">{{ $journal->name }}</option>
                                         @endforeach
                                     </select>
@@ -82,7 +82,7 @@
                                 <div class="form-group{{ $errors->has('volume') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-volume_id">{{ __('Volume No.') }}</label>
                                     <select name="volume" class="form-control" required>
-                                        @foreach(App\Volume::all() as $volume)
+                                        @foreach(App\Models\Volume::all() as $volume)
                                             <option <?php if ($article->volume == $volume->volume_no){echo 'selected';} ?> value="{{ $article->volume }}">{{ $article->volume }}</option>
                                         @endforeach
                                     </select>
@@ -95,7 +95,7 @@
                                 <div class="form-group{{ $errors->has('issue') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-issue_id">{{ __('Issue No.') }}</label>
                                     <select name="issue" class="form-control" required>
-                                        @foreach(App\Issue::all() as $issue)
+                                        @foreach(App\Models\Issue::all() as $issue)
                                             <option <?php if ($article->issue == $issue->issue_no){echo 'selected';} ?> value="{{ $article->issue }}">{{ $article->issue }}</option>
                                         @endforeach
                                     </select>
@@ -119,7 +119,7 @@
                                 <div class="form-group{{ $errors->has('rtopic') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-rtopic">{{ __('Research Topic') }}</label>
                                     <select name="rtopic_id" class="form-control" required>
-                                        @foreach(App\Researchtopic::all() as $researchtopic)
+                                        @foreach(App\Models\Researchtopic::all() as $researchtopic)
                                             <option <?php if ($article->rtopic_id == $researchtopic->id){echo 'selected';} ?> value="{{ $researchtopic->id }}">{{ $researchtopic->title }}</option>
                                         @endforeach
                                     </select>

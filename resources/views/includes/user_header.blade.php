@@ -1,9 +1,9 @@
 <?php
 
-use App\Article;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
 
 $latestnews = Lnew::orderBy('id', 'desc')->paginate(4);
 $articles = Article::orderBy('id', 'desc')->paginate(4);

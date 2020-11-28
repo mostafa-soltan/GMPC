@@ -43,6 +43,16 @@
                                         </span>
                                     @endif
                                 </div>
+                                <div class="form-group{{ $errors->has('abbreviation') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-abbreviation">{{ __('Abbreviation') }}</label>
+                                    <input type="text" name="abbreviation" id="input-abbreviation" class="form-control form-control-alternative{{ $errors->has('abbreviation') ? ' is-invalid' : '' }}" placeholder="{{ __('Abbreviation') }}" value="{{ old('abbreviation') }}" required>
+
+                                    @if ($errors->has('abbreviation'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('abbreviation') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                                 <div class="form-group{{ $errors->has('status') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-status">{{ __('Status') }}</label>
                                     <select name="status" required class="form-control">

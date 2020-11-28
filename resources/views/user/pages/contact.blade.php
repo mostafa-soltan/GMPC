@@ -1,10 +1,10 @@
 <?php
 
-use App\Article;
-use App\Branch;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Branch;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
 
 $latestnews = Lnew::orderBy('id', 'desc')->paginate(4);
 $articles = Article::orderBy('id', 'desc')->paginate(4);
@@ -106,9 +106,8 @@ $branches = Branch::orderBy('id', 'asc')->paginate(1);
                     <a class="nav-link" href="{{ route('contact') }}">Contact Us <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
-            <form action="search.html" method="get" action="search.html" method="get"
-                  class="form-inline my-2 my-lg-0 relative">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+            <form action="{{ route('search') }}" method="get" class="form-inline my-2 my-lg-0 relative">
+                <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search" />
                 <button class="btn my-2 my-sm-0 absolute" type="submit">
                     <i class="fas fa-search"></i>
                 </button>

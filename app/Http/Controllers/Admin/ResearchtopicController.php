@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Photo;
-use App\Researchtopic;
+use App\Models\Photo;
+use App\Models\Researchtopic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

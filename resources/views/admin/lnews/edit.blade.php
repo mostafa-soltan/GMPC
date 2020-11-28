@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('body') ? ' has-danger' : '' }}">
                                     <label class="form-control-label">{{ __('Body') }}</label>
-                                    <textarea name="body" class="form-control form-control-alternative{{ $errors->has('body') ? ' is-invalid' : '' }}" placeholder="{{ __('Body') }}">{{ $lnews->body }}</textarea>
+                                    <textarea name="body" id="editor" class="form-control form-control-alternative{{ $errors->has('body') ? ' is-invalid' : '' }}" placeholder="{{ __('Body') }}">{{ $lnews->body }}</textarea>
 
                                     @if ($errors->has('body'))
                                         <span class="invalid-feedback" role="alert">

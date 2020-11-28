@@ -46,7 +46,7 @@
                                             <span>- {{ $topic->editor2 }}</span><br>
                                             <span>- {{ $topic->editor3 }}</span><br>
                                             <span>- {{ $topic->editor4 }}</span>
-                                            <p class="card-text" title="{{ $topic->overview }}">{{ \Str::limit($topic->overview, 50) }}</p>
+                                            <p class="card-text"><?php echo $topic->overview;?></p>
                                             <hr style="margin: 0; padding: 0;">
                                             <h6 style="margin: 0; padding: 0; font-weight: bold;">Journal Name:</h6>
                                             <span>{{ $topic->journal->name }}</span>
@@ -55,7 +55,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <a href="{{ route('rtopics.edit', $topic) }}" class="btn btn-primary btn-sm">Edit</a>
-                                                <a href="{{ route('rtopics.show', $topic) }}" class="btn btn-primary btn-sm">Show</a>
+                                                <!--<a href="{{ route('rtopics.show', $topic) }}" class="btn btn-primary btn-sm">Show</a>-->
                                                 <input class="btn btn-danger btn-sm" type="button" name="deletenew" value="Delete" onclick="confirm('{{ __("Are you sure you want to delete this topic?") }}') ? this.parentElement.submit() : ''">
                                             </form>
                                         </div>

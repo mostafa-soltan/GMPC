@@ -80,6 +80,5 @@
         $('.timer').countTo();
     });
 </script>
-
 </body>
 </html>

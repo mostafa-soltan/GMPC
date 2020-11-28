@@ -41,8 +41,9 @@
                                     <img height="150" width="180" src="/images/default.jpg" class="card-img-top" alt="journal photo">
                                 @endif
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ $journal->name }}</h5>
+                                    <h4 class="card-title">{{ $journal->name }}</h4>
                                     <p class="card-text"><span style="font-weight: bold">ISSN:</span> {{ $journal->issn }}</p>
+                                    <h5>{{ $journal->abbreviation }}</h5>
                                     <h5 style="color: {{ $journal->status == 1 ? 'Green' : 'Red' }}">{{ $journal->status == 1 ? 'Active' : 'Coming Soon' }}</h5>
 
                                     <form method="POST" action="{{ route('journals.destroy', $journal) }}">

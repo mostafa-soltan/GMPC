@@ -61,7 +61,7 @@
                                     <label class="form-control-label" for="input-journal_id">{{ __('Journal') }}</label>
 
                                     <select name="journal_id" class="form-control" required>
-                                        @foreach(App\Journal::all()->where('status', 1) as $journal)
+                                        @foreach(App\Models\Journal::all()->where('status', 1) as $journal)
                                             <option value="{{ $journal->id }}">{{ $journal->name }}</option>
                                         @endforeach
                                     </select>

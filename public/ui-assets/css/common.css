@@ -222,7 +222,7 @@ main {
 
 /* logo start */
 .logo {
-    background-image: url(../imgs/bg.jpg);
+    background-image: url(../imgs/bg2.jpg);
     padding: 175px 0;
     background-size: cover;
 }
@@ -231,12 +231,12 @@ main {
     .logo {
         padding: 50px 0;
     }
-}
+} 
 @media (min-width: 576px) and (max-width: 992px) {
     .logo {
         padding: 90px 0;
     }
-}
+} 
 /* logo end */
 
 
@@ -339,6 +339,7 @@ footer a,
 footer a:hover {
     color: #fff;
     margin: 2px;
+    font-size: 14px;
 }
 
 @media (max-width: 992px) {

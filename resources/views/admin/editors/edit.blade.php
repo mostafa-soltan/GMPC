@@ -62,7 +62,7 @@
                                     <label class="form-control-label" for="input-journal_id">{{ __('Journal') }}</label>
 
                                     <select name="journal_id" class="form-control" required>
-                                        @foreach(App\Journal::all() as $journal)
+                                        @foreach(App\Models\Journal::all() as $journal)
                                             <option <?php if ($editor->journal->id == $journal->id){ echo 'selected';} ?> value="{{ $journal->id }}">{{ $journal->name }}</option>
                                         @endforeach
                                     </select>

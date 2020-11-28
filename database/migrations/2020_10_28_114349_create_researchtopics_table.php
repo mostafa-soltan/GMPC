@@ -18,9 +18,14 @@ class CreateResearchtopicsTable extends Migration
             $table->string('title');
             $table->text('overview');
             $table->string('editor1')->nullable();
+            $table->string('affiliation1')->nullable();
             $table->string('editor2')->nullable();
+            $table->string('affiliation2')->nullable();
             $table->string('editor3')->nullable();
+            $table->string('affiliation3')->nullable();
             $table->string('editor4')->nullable();
+            $table->string('affiliation4')->nullable();
+            $table->string('keywords')->nullable();
 
             $table->bigInteger('journal_id')->unsigned();
             $table->foreign('journal_id')->references('id')->on('journals')->onDelete('cascade');

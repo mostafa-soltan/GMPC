@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Article;
-use App\Author;
-use App\Issue;
-use App\Journal;
-use App\Keyword;
-use App\Volume;
+use App\Models\Article;
+use App\Models\Author;
+use App\Models\Issue;
+use App\Models\Journal;
+use App\Models\Keyword;
+use App\Models\Volume;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;

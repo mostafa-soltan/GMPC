@@ -1,8 +1,8 @@
 <?php
-use App\Article;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
 
 $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
 $topic_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('rtopic_id', $topic->id )->paginate(4);
@@ -50,8 +50,8 @@ $topic_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->
                         </li>
                     </ul>
                     <a href="https://www.ejmanager.com/my/gjvr/index.php" target="blank"  class="btn btn-primary mr-2">SUBMIT</a>
-                    <form action="../search.html" method="get" class="form-inline my-2 my-lg-0 relative">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                    <form action="{{ route('search') }}" method="get" class="form-inline my-2 my-lg-0 relative">
+                        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search" />
                         <button class="btn my-2 my-sm-0 absolute" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -70,9 +70,8 @@ $topic_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->
                 </button>
                 <div class="collapse navbar-collapse" id="J-navbar">
                     <ul class="navbar-nav m-auto align-items-center">
-                        <li class="nav-item active">
-                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal) }}">Journal <span
-                                    class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal) }}">Journal</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="{{ route('scope', $journal) }}">Aims & Scope</a>
@@ -80,8 +79,9 @@ $topic_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="{{ route('articles', $journal) }}">Articles</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('researchtopics', $journal) }}">Research Topics</a>
+                        <li class="nav-item active">
+                            <a class="nav-link text-uppercase" href="{{ route('researchtopics', $journal) }}">Research Topics <span
+                                    class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-uppercase" href="" id="navbarDropdown" role="button"
@@ -158,12 +158,12 @@ $topic_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->
                         <div class="numbers mt-3 p-2 mb-3 effect3">
                             <h5>Journal Metrics </h5>
                             <div class="pl-3">
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Visitors </div>
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Article Views </div>
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Article Downloads </div>
+                                <div class="counter"><span class="timer" data-from="0" data-to="{{ $journal->views_count }}" data-speed="5000"
+                                                           data-refresh-interval="50">{{ $journal->views_count }}</span> Visitors </div>
+                                <!--<div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
+                                                           data-refresh-interval="50">0</span> Article Views </div>-->
+                                <!--<div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
+                                                           data-refresh-interval="50">0</span> Article Downloads </div>-->
                             </div>
                         </div>
                     </aside>
@@ -186,9 +186,9 @@ $topic_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->
                                          aria-labelledby="Overview-tab">
                                         <div>
                                             <h6>About the topic:</h6>
-                                            <p>{{ $topic->overview }}</p>
+                                            <p><?php echo $topic->overview; ?></p>
                                             <h6>Keywords:</h6>
-                                            <p>Lorem ipsum dolor sit amet consectetur.</p>
+                                            <p>{{ $topic->keywords }}</p>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade p-4" id="Articles" role="tabpanel"
@@ -202,10 +202,10 @@ $topic_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->
                                                     <h5><a href="/articles/{{ $journal->id }}/single/{{ $article->id }}">{{ $article->title }}</a></h5>
                                                     <p class="m-0">Authors: {{ $article->authors }}</p>
                                                     <p>
-                                                        <em>{{ $article->journal->name }}</em> {{ $article->year }}.
+                                                        <em>{{ $article->journal->abbreviation }}</em> {{ $article->year }}.
                                                         <a href="/journal/{{ $article->journal->id }}/volume/{{ $article->volume }}/issue/{{ $article->issue }}" class="main-color">vol. {{ $article->volume }}, Iss. {{ $article->issue }},</a> pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi:{{ $article->doi }}
                                                     </p>
-                                                    <p>views: <span class="main-color">100</span></p>
+                                                    <p>views: <span class="main-color">{{ $article->views_count }}</span></p>
                                                 </div>
                                             </div>
                                             @endforeach
@@ -231,10 +231,10 @@ $topic_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->
                                     <div class="pt-2 pl-2">
                                         <h6>Topic Editor/s:</h6>
                                         <ul>
-                                            <?php if(isset($topic->editor1)) { echo '<li><strong>' . $topic->editor1 . '</strong></li>'; } else{ echo '';}?>
-                                            <?php if(isset($topic->editor2)) { echo '<li><strong>' . $topic->editor2 . '</strong></li>'; } else{ echo '';}?>
-                                            <?php if(isset($topic->editor3)) { echo '<li><strong>' . $topic->editor3 . '</strong></li>'; } else{ echo '';}?>
-                                            <?php if(isset($topic->editor4)) { echo '<li><strong>' . $topic->editor4 . '</strong></li>'; } else{ echo '';}?>
+                                            <?php if(isset($topic->editor1)) { echo '<li><p><strong>' . $topic->editor1 . '</strong> <br>' . $topic->affiliation1 . '<p></li>'; } else{ echo '';}?>
+                                            <?php if(isset($topic->editor2)) { echo '<li><p><strong>' . $topic->editor2 . '</strong> <br>' . $topic->affiliation2 . '<p></li>'; } else{ echo '';}?>
+                                            <?php if(isset($topic->editor3)) { echo '<li><p><strong>' . $topic->editor3 . '</strong> <br>' . $topic->affiliation3 . '<p></li>'; } else{ echo '';}?>
+                                            <?php if(isset($topic->editor4)) { echo '<li><p><strong>' . $topic->editor4 . '</strong> <br>' . $topic->affiliation4 . '<p></li>'; } else{ echo '';}?>
                                         </ul>
                                     </div>
                                 </div>

@@ -2,18 +2,18 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Article;
-use App\Author;
-use App\Branch;
-use App\Editor;
-use App\Issue;
-use App\Journal;
-use App\Keyword;
-use App\Lnew;
-use App\Photo;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Author;
+use App\Models\Branch;
+use App\Models\Editor;
+use App\Models\Issue;
+use App\Models\Journal;
+use App\Models\Keyword;
+use App\Models\Lnew;
+use App\Models\Photo;
+use App\Models\Researchtopic;
 use App\User;
-use App\Volume;
+use App\Models\Volume;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
@@ -40,9 +40,13 @@ $factory->define(User::class, function (Faker $faker) {
 });
 
 $factory->define(Journal::class, function (Faker $faker) {
+    $name = ['German Journal Of Veterinary Research', 'GMPC Thesis & Opinions Platform', 'German Journal Of Microbiology'];
+    $issn = ['001', '002', '003'];
+    $abbreviation = ['Ger. J. Vet. Res', 'GMPC TOP', ' Ger. J. Microbiol'];
     return [
-        'name' => $faker->sentence,
-        'issn' => $faker->sentence,
+        'name' => $faker->randomElement($name),
+        'issn' => $faker->randomElement($issn),
+        'abbreviation' => $faker->randomElement($abbreviation),
         'status' => $faker->randomElement([0, 1]),
     ];
 });
@@ -52,8 +56,8 @@ $factory->define(Volume::class, function (Faker $faker) {
     //$journalid = Journal::all()->random()->id;
 
     return [
-        'volume_no' => $faker->numberBetween(1,12),
-        'year' => $faker->year,
+        'volume_no' => 1,
+        'year' => 2021,
         //'journal_id' => $journalid,
     ];
 });
@@ -62,9 +66,9 @@ $factory->define(Issue::class, function (Faker $faker) {
 
     //$journalid = Journal::all()->random()->id;
     //$volumeid = Volume::all()->random()->id;
-
+    $issues = [1,2,3,4];
     return [
-        'issue_no' => $faker->numberBetween(1,4),
+        'issue_no' => $faker->randomElement($issues),
         //'journal_id' => $journalid,
         //'volume_no' => $volumeid,
     ];
@@ -100,18 +104,24 @@ $factory->define(Researchtopic::class, function (Faker $faker) {
         'title' => $faker->sentence,
         'overview' => $faker->text,
         'editor1' => $faker->name,
+        'affiliation1' => $faker->sentence,
         'editor2' => $faker->name,
+        'affiliation2' => $faker->sentence,
         'editor3' => $faker->name,
+        'affiliation3' => $faker->sentence,
         'editor4' => $faker->name,
+        'affiliation4' => $faker->sentence,
         'journal_id' => $journalid,
+        'keywords' => $faker->word,
     ];
 });
 
 $factory->define(Article::class, function (Faker $faker) {
 
     $journalid = Journal::all()->random()->id;
-    //$volumeid = Volume::all()->random()->id;
-    //$issueid = Issue::all()->random()->id;
+    $volumeno = Volume::all()->random()->volume_no;
+    $volumeyear = Volume::all()->random()->year;
+    $issueno = Issue::all()->random()->issue_no;
     $rtopicid = Researchtopic::all()->random()->id;
 
     return [
@@ -124,9 +134,9 @@ $factory->define(Article::class, function (Faker $faker) {
         'start_page' => $faker->randomDigit,
         'end_page' => $faker->randomDigit,
         'journal_id' => $journalid,
-        'volume' => $faker->randomDigit,
-        'issue' => $faker->randomDigit,
-        'year' => $faker->year,
+        'volume' => $volumeno,
+        'issue' => $issueno,
+        'year' => $volumeyear,
         'rtopic_id' => $rtopicid,
         'authors' => $faker->name,
         'keywords' => $faker->word,
@@ -168,11 +178,11 @@ $factory->define(Photo::class, function (Faker $faker) {
     $photoable_id = $faker->randomElement([$journalid, $rtopicid, $lnewid]);
 
         if ($photoable_id == $journalid) {
-             $photoable_type = 'App\Journal';
+             $photoable_type = 'App\Models\Journal';
         }elseif ($photoable_id == $rtopicid) {
-             $photoable_type = 'App\Researchtopic';
+             $photoable_type = 'App\Models\Researchtopic';
         }elseif ($photoable_id == $lnewid){
-             $photoable_type = 'App\Lnew';
+             $photoable_type = 'App\Models\Lnew';
         }
 
 

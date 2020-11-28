@@ -1,9 +1,9 @@
 <?php
 
-use App\Article;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
 
 $latestnews = Lnew::orderBy('id', 'desc')->paginate(4);
 $articles = Article::orderBy('id', 'desc')->paginate(4);
@@ -104,9 +104,8 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                         <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                     </li>
                 </ul>
-                <form action="search.html" method="get" action="search.html" method="get"
-                      class="form-inline my-2 my-lg-0 relative">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                <form action="{{ route('search') }}" method="get" class="form-inline my-2 my-lg-0 relative">
+                    <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search" />
                     <button class="btn my-2 my-sm-0 absolute" type="submit">
                         <i class="fas fa-search"></i>
                     </button>
@@ -119,7 +118,7 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
     <div class="container">
         <article class="m-md-3">
             <div class="d-flex justify-content-between">
-                <span class="main-color">{{ $new->publish_date }}</span>
+                <span class="main-color">{{ date('F d, Y',strtotime($new->publish_date)) }}</span>
                 <a class="a2a_dd main-color" href="https://www.addtoany.com/share"><i
                         class="fas fa-share-alt-square"></i></a>
             </div>
@@ -131,7 +130,7 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                     <img src="/images/default.jpg" alt="news-picture" class="order-md-2 img-fluid img-thumbnail news-pic">
                 @endif
                 <div class="text-body order-md-1">
-                    <p>{{ $new->body }}</p>
+                    <p><?php echo $new->body;?></p>
                     <div class="d-flex justify-content-end">
                         <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
                             <a class="a2a_button_facebook"></a>

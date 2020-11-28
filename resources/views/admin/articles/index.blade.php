@@ -50,9 +50,9 @@
                                             {{ $article->journal->name }}
                                         </div>
                                         <div class="card-body">
-                                            <h5 class="card-title">{{ $article->title }}</h5>
-                                            <p class="card-text">{{ $article->abstract }}</p>
-                                            <span style="font-weight: 600; color: black">Publication Date: </span><span>{{ $article->publication_date }}</span><br>
+                                            <h5 class="card-title"><?php echo $article->title;?></h5>
+                                            <p class="card-text"><?php echo $article->abstract;?></p>
+                                            <span style="font-weight: 600; color: black">Publication Date: </span><span>{{ date('F d, Y', strtotime($article->publication_date)) }}</span><br>
                                             <span style="font-weight: 600; color: black">Status: </span><span style="color: <?php if($article->status == 0){echo 'red';}else{echo 'green';}?> "><?php if($article->status == 0){echo 'In Press';}else{echo 'Publish';}?></span><br>
                                             <form method="POST" action="{{ route('articles.destroy', $article) }}">
                                                 @csrf

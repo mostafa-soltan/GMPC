@@ -18,8 +18,8 @@ class CreateArticlesTable extends Migration
             $table->string('title');
             $table->text('abstract');
             $table->date('publication_date');
-            $table->integer('volume');
-            $table->integer('issue');
+            $table->integer('volume')->nullable();
+            $table->integer('issue')->nullable();
             $table->year('year');
             $table->string('link');
             $table->string('doi');

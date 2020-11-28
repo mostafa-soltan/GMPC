@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Article;
-use App\Branch;
+use App\Models\Article;
+use App\Models\Branch;
 use App\Http\Controllers\Controller;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
+use App\Models\Volume;
 
 class HomeController extends Controller
 {
@@ -31,5 +32,15 @@ class HomeController extends Controller
     public function contact()
     {
         return view('user.pages.contact');
+    }
+
+    public function privacy()
+    {
+        return view('user.pages.privacy');
+    }
+
+    public function openAccess()
+    {
+        return view('user.pages.openaccess');
     }
 }

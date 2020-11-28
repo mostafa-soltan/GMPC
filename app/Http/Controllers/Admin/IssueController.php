@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Issue;
-use App\Journal;
+use App\Models\Issue;
+use App\Models\Journal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

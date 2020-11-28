@@ -1,10 +1,10 @@
 <?php
 
-use App\Article;
-use App\Editor;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Editor;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
 
 $articles_count = Article::all()->count();
 $articlespub_count = Article::all()->where('status', 1)->count();

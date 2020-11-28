@@ -1,8 +1,7 @@
 <?php
-
-use App\Keyword;
+use App\Models\Author;
+use App\Models\Keyword;
 use Illuminate\Database\Seeder;
-use App\Author;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,16 +13,16 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         factory('App\User', 10)->create();
-        factory('App\Journal', 5)->create();
-        factory('App\Volume', 12)->create();
-        factory('App\Issue', 4)->create();
-        factory('App\Editor', 50)->create();
-        factory('App\Lnew', 10)->create();
-        factory('App\Researchtopic', 30)->create();
-        factory('App\Branch', 3)->create();
+        factory('App\Models\Journal', 3)->create();
+        factory('App\Models\Volume', 1)->create();
+        factory('App\Models\Issue', 4)->create();
+        factory('App\Models\Editor', 50)->create();
+        factory('App\Models\Lnew', 10)->create();
+        factory('App\Models\Researchtopic', 30)->create();
+        factory('App\Models\Branch', 3)->create();
 
-        $articles = factory('App\Article', 100)->create();
-        $keywords = factory('App\Keyword', 300)->create();
+        $articles = factory('App\Models\Article', 100)->create();
+        $keywords = factory('App\Models\Keyword', 300)->create();
 
         foreach ($articles as $article)
         {
@@ -36,7 +35,7 @@ class DatabaseSeeder extends Seeder
             $article->keywords()->sync($keywords_ids);
         }
 
-        $authors = factory('App\Author', 300)->create();
+        $authors = factory('App\Models\Author', 300)->create();
 
         foreach ($articles as $article)
         {
@@ -48,6 +47,6 @@ class DatabaseSeeder extends Seeder
             $article->authors()->sync($authors_ids);
         }
 
-        factory('App\Photo', 50)->create();
+        factory('App\Models\Photo', 50)->create();
     }
 }

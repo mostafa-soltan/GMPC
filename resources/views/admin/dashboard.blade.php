@@ -29,12 +29,12 @@
                             </thead>
                             <tbody>
 
-                                    @foreach(App\Article::orderBy('id', 'desc')->paginate(5) as $article)
+                                    @foreach(App\Models\Article::orderBy('id', 'desc')->paginate(5) as $article)
                                         <tr>
                                             <td title="{{ $article->title }}">{{ \Str::limit($article->title, 50) }}</td> <?php //ToDo::anchor link to article show ?>
                                             <td>{{ $article->journal->name }}</td>
                                             <td style="<?php if ($article->status == 1){echo 'color:green';}else{echo 'color:red';} ?>"> <?php if ($article->status == 1){echo 'Publish';}else{echo 'In Press';} ?> </td>
-                                            <td>{{ $article->publication_date }}</td>
+                                            <td>{{ date('F d, Y',strtotime($article->publication_date)) }}</td>
                                         </tr>
                                     @endforeach
 
@@ -68,12 +68,12 @@
                             </thead>
                             <tbody>
 
-                            @foreach(App\Lnew::orderBy('id', 'desc')->paginate(5) as $lnew)
+                            @foreach(App\Models\Lnew::orderBy('id', 'desc')->paginate(5) as $lnew)
                                 <tr>
                                     <td title="{{ $lnew->title }}">{{ \Str::limit($lnew->title,20) }}</td> <?php //ToDo::anchor link to article show ?>
                                     <td title="{{ $lnew->body }}">{{ \Str::limit($lnew->body, 50) }}</td>
                                     <td>{{ $lnew->author }}</td>
-                                    <td>{{ $lnew->publish_date }}</td>
+                                    <td>{{ date('F d, Y',strtotime($lnew->publish_date)) }}</td>
                                 </tr>
                             @endforeach
 
@@ -106,7 +106,7 @@
                             </thead>
                             <tbody>
 
-                            @foreach(App\Researchtopic::orderBy('id', 'desc')->paginate(5) as $rtopic)
+                            @foreach(App\Models\Researchtopic::orderBy('id', 'desc')->paginate(5) as $rtopic)
                                 <tr>
                                     <td title="{{ $rtopic->title }}">{{ \Str::limit($rtopic->title, 30) }}</td> <?php //ToDo::anchor link to article show ?>
                                     <td>{{ $rtopic->journal->name }}</td>

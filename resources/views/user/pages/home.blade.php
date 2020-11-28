@@ -1,8 +1,8 @@
 <?php
-use App\Article;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
 
 $latestnews = Lnew::orderBy('id', 'desc')->paginate(4);
 $articles = Article::orderBy('id', 'desc')->paginate(4);
@@ -104,9 +104,8 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                             <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                         </li>
                     </ul>
-                    <form action="search.html" method="get" action="search.html" method="get"
-                          class="form-inline my-2 my-lg-0 relative">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                    <form action="{{ route('search') }}" method="get" class="form-inline my-2 my-lg-0 relative">
+                        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search" />
                         <button class="btn my-2 my-sm-0 absolute" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -177,7 +176,7 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                                                                                                  class="main-color"> vol. {{ $article->volume }},
                                                     Iss. {{ $article->issue }}</a> pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi: {{ $article->doi }}</p>
                                             <p class="card-text" title="{{ $article->abstract }}">
-                                                {{ \Str::limit($article->abstract, 50) }}
+                                                <?php echo \Str::limit($article->abstract, 50);?>
                                             </p><a href="/articles/{{ $article->journal->id }}/single/{{ $article->id }}"><small class="main-color">Read
                                                     More</small></a>
                                         </div>
@@ -212,7 +211,7 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                                                 <a href="/researchtopics/{{ $topic->journal_id}}/single/{{ $topic->id }}">{{ \Str::limit($topic->title, 50) }}</a>
                                             </h6>
                                             <p class="main-color">{{ $topic->journal->name }}</p>
-                                            <p class="card-text" title="{{ $topic->overview }}">{{ \Str::limit($topic->overview, 50) }}
+                                            <p class="card-text"><?php echo \Str::limit($topic->overview, 50);?>
                                             </p><a href="/researchtopics/{{ $topic->journal_id }}/single/{{ $topic->id }}"><small class="main-color">Read More</small></a>
                                         </div>
                                     </div>
@@ -244,7 +243,7 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                                                 <!-- daynamic href & title & abstract-->
                                                 <a href="{{ route('singlenew', $new) }}">{{ \Str::limit($new->title, 50) }}</a>
                                             </h6>
-                                            <p class="card-text" title="{{ $new->body }}">{{ \Str::limit($new->body, 50) }}</p>
+                                            <p class="card-text"><?php echo $new->body ;?></p>
                                             <a href="{{ route('singlenew', $new) }}"><small class="main-color">Read More</small></a>
                                         </div>
                                     </div>

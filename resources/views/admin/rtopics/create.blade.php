@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('overview') ? ' has-danger' : '' }}">
                                     <label class="form-control-label">{{ __('Overview') }}</label>
-                                    <textarea name="overview" class="form-control form-control-alternative{{ $errors->has('overview') ? ' is-invalid' : '' }}" placeholder="{{ __('Overview') }}"></textarea>
+                                    <textarea name="overview" id="editor" class="form-control form-control-alternative{{ $errors->has('overview') ? ' is-invalid' : '' }}" placeholder="{{ __('Overview') }}"></textarea>
 
                                     @if ($errors->has('overview'))
                                         <span class="invalid-feedback" role="alert">
@@ -53,6 +53,16 @@
                                         </span>
                                     @endif
                                 </div>
+                                <div class="form-group{{ $errors->has('affiliation1') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-affiliation1">{{ __('Affiliation') }}</label>
+                                    <input type="text" name="affiliation1" id="input-affiliation1" class="form-control form-control-alternative{{ $errors->has('affiliation1') ? ' is-invalid' : '' }}" placeholder="{{ __('Affiliation') }}" value="{{ old('affiliation1') }}" required>
+
+                                    @if ($errors->has('affiliation1'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('affiliation1') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                                 <div class="form-group{{ $errors->has('editor2') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-editor2">{{ __('Editor') }}</label>
                                     <input type="text" name="editor2" id="input-editor2" class="form-control form-control-alternative{{ $errors->has('editor2') ? ' is-invalid' : '' }}" placeholder="{{ __('Editor') }}" value="{{ old('editor2') }}" required>
@@ -60,6 +70,16 @@
                                     @if ($errors->has('editor2'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('editor2') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="form-group{{ $errors->has('affiliation2') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-affiliation2">{{ __('Affiliation') }}</label>
+                                    <input type="text" name="affiliation2" id="input-affiliation2" class="form-control form-control-alternative{{ $errors->has('affiliation2') ? ' is-invalid' : '' }}" placeholder="{{ __('Affiliation') }}" value="{{ old('affiliation2') }}" required>
+
+                                    @if ($errors->has('affiliation1'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('affiliation1') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -73,6 +93,16 @@
                                         </span>
                                     @endif
                                 </div>
+                                <div class="form-group{{ $errors->has('affiliation3') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-affiliation3">{{ __('Affiliation') }}</label>
+                                    <input type="text" name="affiliation3" id="input-affiliation3" class="form-control form-control-alternative{{ $errors->has('affiliation3') ? ' is-invalid' : '' }}" placeholder="{{ __('Affiliation') }}" value="{{ old('affiliation3') }}" required>
+
+                                    @if ($errors->has('affiliation3'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('affiliation3') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                                 <div class="form-group{{ $errors->has('editor4') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-editor4">{{ __('Editor') }}</label>
                                     <input type="text" name="editor4" id="input-editor4" class="form-control form-control-alternative{{ $errors->has('editor4') ? ' is-invalid' : '' }}" placeholder="{{ __('Editor') }}" value="{{ old('editor4') }}" required>
@@ -83,11 +113,31 @@
                                         </span>
                                     @endif
                                 </div>
+                                <div class="form-group{{ $errors->has('affiliation4') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-affiliation4">{{ __('Affiliation') }}</label>
+                                    <input type="text" name="affiliation4" id="input-affiliation4" class="form-control form-control-alternative{{ $errors->has('affiliation4') ? ' is-invalid' : '' }}" placeholder="{{ __('Affiliation') }}" value="{{ old('affiliation4') }}" required>
+
+                                    @if ($errors->has('affiliation4'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('affiliation4') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="form-group{{ $errors->has('keywords') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-keywords">{{ __('Keywords') }}</label>
+                                    <input type="text" name="keywords" id="input-keywords" class="form-control form-control-alternative{{ $errors->has('keywords') ? ' is-invalid' : '' }}" placeholder="{{ __('Keywords') }}" value="{{ old('keywords') }}" required>
+
+                                    @if ($errors->has('keywords'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('keywords') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                                 <div class="form-group{{ $errors->has('journal_id') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-journal_id">{{ __('Journal') }}</label>
 
                                     <select name="journal_id" class="form-control" required>
-                                        @foreach(App\Journal::all()->where('status', 1) as $journal)
+                                        @foreach(App\Models\Journal::all()->where('status', 1) as $journal)
                                             <option value="{{ $journal->id }}">{{ $journal->name }}</option>
                                         @endforeach
                                     </select>

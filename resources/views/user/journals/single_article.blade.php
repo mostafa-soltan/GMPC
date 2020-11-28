@@ -1,8 +1,8 @@
 <?php
-use App\Article;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
 
 $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
 $articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('status', 1)->paginate(4);
@@ -52,8 +52,8 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                         </li>
                     </ul>
                     <a href="https://www.ejmanager.com/my/gjvr/index.php" target="blank"  class="btn btn-primary mr-2">SUBMIT</a>
-                    <form action="../search.html" method="get" class="form-inline my-2 my-lg-0 relative">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                    <form action="{{ route('search') }}" method="get" class="form-inline my-2 my-lg-0 relative">
+                        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search" />
                         <button class="btn my-2 my-sm-0 absolute" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -72,15 +72,15 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                 </button>
                 <div class="collapse navbar-collapse" id="J-navbar">
                     <ul class="navbar-nav m-auto align-items-center">
-                        <li class="nav-item active">
-                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal) }}">Journal <span
-                                    class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal) }}">Journal</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="{{ route('scope', $journal) }}">Aims & Scope</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('articles', $journal) }}">Articles</a>
+                        <li class="nav-item active">
+                            <a class="nav-link text-uppercase" href="{{ route('articles', $journal) }}">Articles <span
+                                    class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="{{ route('researchtopics', $journal) }}">Research Topics</a>
@@ -160,12 +160,12 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                         <div class="numbers mt-3 p-2 mb-3 effect3">
                             <h5>Journal Metrics </h5>
                             <div class="pl-3">
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Visitors </div>
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Article Views </div>
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Article Downloads </div>
+                                <div class="counter"><span class="timer" data-from="0" data-to="{{ $journal->views_count }}" data-speed="5000"
+                                                           data-refresh-interval="50">{{ $journal->views_count }}</span> Visitors </div>
+                                <!--<div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
+                                                           data-refresh-interval="50">0</span> Article Views </div>-->
+                                <!--<div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
+                                                           data-refresh-interval="50">0</span> Article Downloads </div>-->
                             </div>
                         </div>
                     </aside>
@@ -174,12 +174,16 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                     <article>
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h5 class="mb-0">{{ $article->title }}</h5>
+                                <h5 class="mb-0"><?php echo $article->title;?></h5>
                                 <p class="m-0">Authors: {{ $article->authors }}</p>
                                 <p>
-                                    <em>{{ $article->journal->name }}</em> {{ $article->year }}. <a href="/journal/{{ $journal->id }}/volume/{{ $article->volume }}/issue/{{ $article->issue }}" class="main-color">
-                                        vol. {{ $article->volume }},
-                                        Iss. {{ $article->issue }}</a> pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi: {{ $article->doi }}
+                                    <em>{{ $article->journal->abbreviation }}</em> {{ $article->year }}.
+                                    @if($article->volume !== null && $article->issue !== null)
+                                    <a href="/journal/{{ $journal->id }}/volume/{{ $article->volume }}/issue/{{ $article->issue }}" class="main-color">
+                                        vol. {{ $article->volume }}, Iss. {{ $article->issue }}
+                                    </a>
+                                    @endif
+                                    pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi: {{ $article->doi }}
                                 </p>
                             </div>
                             <div>
@@ -194,12 +198,11 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                             </div>
                         </div>
                         <h6 class="mb-0">Abstract:</h6>
-                        <p>{{ $article->abstract }}</p>
+                        <p><?php echo $article->abstract;?></p>
                         <h6 class="mb-0">Keywords:</h6>
                         <p>{{ $article->keywords }}</p>
                         <h6 class="mb-0">Statistics:</h6>
-                        <p>Article View: <span class="main-color">100</span> <br>
-                            PDF Download: <span class="main-color">100</span></p>
+                        <p>Article Views: <span class="main-color">{{ $article->views_count }}</span></p>
                     </article>
                 </div>
             </div>

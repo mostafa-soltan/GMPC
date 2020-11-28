@@ -17,6 +17,7 @@ class CreateJournalsTable extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->string('name');
             $table->string('issn');
+            $table->string('abbreviation')->nullable();
             $table->integer('status')->default(0);
             $table->timestamps();
         });

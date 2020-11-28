@@ -1,8 +1,8 @@
 <?php
-use App\Article;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
 
 $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
 $issue_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('volume', $volume->volume_no)->where('issue', $issue->issue_no)->where('status', 1)->paginate(5);
@@ -51,8 +51,8 @@ $issue_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->
                         </li>
                     </ul>
                     <a href="https://www.ejmanager.com/my/gjvr/index.php" target="blank"  class="btn btn-primary mr-2">SUBMIT</a>
-                    <form action="../search.html" method="get" class="form-inline my-2 my-lg-0 relative">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                    <form action="{{ route('search') }}" method="get" class="form-inline my-2 my-lg-0 relative">
+                        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search" />
                         <button class="btn my-2 my-sm-0 absolute" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -159,12 +159,12 @@ $issue_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->
                         <div class="numbers mt-3 p-2 mb-3 effect3">
                             <h5>Journal Metrics </h5>
                             <div class="pl-3">
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Visitors </div>
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Article Views </div>
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Article Downloads </div>
+                                <div class="counter"><span class="timer" data-from="0" data-to="{{ $journal->views_count }}" data-speed="5000"
+                                                           data-refresh-interval="50">{{ $journal->views_count }}</span> Visitors </div>
+                                <!--<div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
+                                                           data-refresh-interval="50">0</span> Article Views </div>-->
+                                <!--<div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
+                                                           data-refresh-interval="50">0</span> Article Downloads </div>-->
                             </div>
                         </div>
                     </aside>
@@ -180,9 +180,9 @@ $issue_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->
                                     <h5 class="mb-0"><a href="/articles/{{ $journal->id }}/single/{{ $article->id }}">{{ $article->title }}</a></h5>
                                     <p class="m-0">Authors: {{ $article->authors }}</p>
                                     <p>
-                                        <em>{{ $article->journal->name }}</em> {{ $article->year }}. pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi: {{ $article->doi }}
+                                        <em>{{ $article->journal->abbreviation }}</em> {{ $article->year }}. pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi: {{ $article->doi }}
                                     </p>
-                                    <p>views: <span class="main-color">100</span></p>
+                                    <p>views: <span class="main-color">{{ $article->views_count }}</span></p>
                                 </div>
                             </div>
                         </div>

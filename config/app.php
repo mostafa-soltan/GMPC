@@ -178,6 +178,8 @@ return [
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
 
+        CyrildeWit\EloquentViewable\EloquentViewableServiceProvider::class,
+
     ],
 
     /*

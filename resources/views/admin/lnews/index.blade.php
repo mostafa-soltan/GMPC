@@ -32,8 +32,8 @@
                         <div class="row">
 
                             @foreach($lnews as $new)
-                                <div class="col-sm-3">
-                                    <div class="card" style="width: 14.5rem;">
+                                <div class="col-sm-4">
+                                    <div class="card" style="width: 21rem;">
                                         @if($new->photo)
                                             <img height="150" width="180" src="/images/{{ $new->photo->filename }}" class="card-img-top" alt="news photo">
                                         @else
@@ -42,14 +42,14 @@
                                         <div class="card-body">
                                             <h5 class="card-title" title="{{ $new->title }}">{{ \Str::limit($new->title, 20) }}</h5>
                                             <h5 class="card-title"><span style="font-weight: bold;">Author: </span>{{ $new->author }}</h5>
-                                            <h5 class="card-title"><span style="font-weight: bold;">Publish Date: </span>{{ $new->publish_date }}</h5>
-                                            <p class="card-text">{{ \Str::limit($new->body) }}</p>
+                                            <h5 class="card-title"><span style="font-weight: bold;">Publish Date: </span>{{ date('F d, Y',strtotime($new->publish_date)) }}</h5>
+                                            <p class="card-text"><?php echo $new->body;?></p>
 
                                             <form method="POST" action="{{ route('lnews.destroy', $new) }}">
                                                 @csrf
                                                 @method('DELETE')
                                                 <a href="{{ route('lnews.edit', $new) }}" class="btn btn-primary btn-sm">Edit</a>
-                                                <a href="{{ route('lnews.show', $new) }}" class="btn btn-primary btn-sm">Show</a>
+                                                <!--<a href="{{ route('lnews.show', $new) }}" class="btn btn-primary btn-sm">Show</a>-->
                                                 <input class="btn btn-danger btn-sm" type="button" name="deletenew" value="Delete" onclick="confirm('{{ __("Are you sure you want to delete this new?") }}') ? this.parentElement.submit() : ''">
                                             </form>
                                         </div>

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 
-use App\Lnew;
-use App\Photo;
+use App\Models\Lnew;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,7 +12,7 @@ class LatestnewController extends Controller
 {
     public function index()
     {
-        $lnews = Lnew::orderBy('id', 'desc')->paginate(15);
+        $lnews = Lnew::orderBy('id', 'desc')->paginate(6);
         return view('admin.lnews.index', compact('lnews'));
     }
 

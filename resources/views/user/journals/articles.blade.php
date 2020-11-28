@@ -1,12 +1,13 @@
 <?php
-use App\Article;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
 
 $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
 $articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('status', 1)->paginate(4);
 $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('status', 0)->paginate(4);
+$mostviewed_articles = Article::orderBy('views_count', 'desc')->where('journal_id', $journal->id)->take(4)->get();
 
 ?>
 
@@ -52,8 +53,8 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                         </li>
                     </ul>
                     <a href="https://www.ejmanager.com/my/gjvr/index.php" target="blank"  class="btn btn-primary mr-2">SUBMIT</a>
-                    <form action="../search.html" method="get" class="form-inline my-2 my-lg-0 relative">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                    <form action="{{ route('search') }}" method="get" class="form-inline my-2 my-lg-0 relative">
+                        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search" />
                         <button class="btn my-2 my-sm-0 absolute" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -160,12 +161,12 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                         <div class="numbers mt-3 p-2 mb-3 effect3">
                             <h5>Journal Metrics </h5>
                             <div class="pl-3">
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Visitors </div>
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Article Views </div>
-                                <div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
-                                                           data-refresh-interval="50">0</span> Article Downloads </div>
+                                <div class="counter"><span class="timer" data-from="0" data-to="{{ $journal->views_count }}" data-speed="5000"
+                                                           data-refresh-interval="50">{{ $journal->views_count }}</span> Visitors </div>
+                                <!--<div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
+                                                           data-refresh-interval="50">0</span> Article Views </div>-->
+                                <!--<div class="counter"><span class="timer" data-from="0" data-to="100" data-speed="5000"
+                                                           data-refresh-interval="50">0</span> Article Downloads </div>-->
                             </div>
                         </div>
                     </aside>
@@ -184,51 +185,22 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                             <div class="tab-pane fade show active p-4" id="most-viewd" role="tabpanel"
                                  aria-labelledby="most-viewd-tab">
                                 <div class="row">
+                                    @if(count($mostviewed_articles))
                                     <div>
+                                        @foreach($mostviewed_articles as $mvarticle)
                                         <div class="article mb-4">
-                                            <h5 class="mb-0"><a href="single-article.html">Lorem ipsum dolor sit amet
-                                                    consectetur,
-                                                    adipisicing elit.
-                                                    Exercitationem.</a></h5>
-                                            <p class="m-0">Authors: --</p>
+                                            <h5 class="mb-0"><a href="/articles/{{ $journal->id }}/single/{{ $mvarticle->id }}">{{ $mvarticle->title }}</a></h5>
+                                            <p class="m-0">Authors: {{ $mvarticle->authors }}</p>
                                             <p>
-                                                <em>Ger. J. of Vet. Res.</em> 2021. <a href="issue.html"
+                                                <em>{{ $mvarticle->journal->abbreviation }}</em> {{ $mvarticle->year }}. <a href="/journal/{{ $mvarticle->journal->id }}/volume/{{ $mvarticle->volume }}/issue/{{ $mvarticle->issue }}"
                                                                                        class="main-color">
-                                                    vol. 1, Iss. 1,</a> pp:1-5 <br>Doi: .....
+                                                    vol. {{ $mvarticle->volume }}, Iss. {{ $mvarticle->issue }},</a> pp:{{ $mvarticle->start_page }}-{{ $mvarticle->end_page }} <br>Doi: {{ $mvarticle->doi }}
                                             </p>
-                                            <p>views:<span class="views">100</span></p>
+                                            <p>views:<span class="views">{{ $mvarticle->views_count }}</span></p>
                                         </div>
+                                        @endforeach
                                     </div>
-                                    <div>
-                                        <div class="article mb-4">
-                                            <h5 class="mb-0"><a href="single-article.html">Lorem ipsum dolor sit amet
-                                                    consectetur,
-                                                    adipisicing elit.
-                                                    Exercitationem.</a></h5>
-                                            <p class="m-0">Authors: --</p>
-                                            <p>
-                                                <em>Ger. J. of Vet. Res.</em> 2021. <a href="issue.html"
-                                                                                       class="main-color">
-                                                    vol. 1, Iss. 1,</a> pp:1-5 <br>Doi: .....
-                                            </p>
-                                            <p>views: <span class="main-color">100</span></p>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="article mb-4">
-                                            <h5 class="mb-0"><a href="single-article.html">Lorem ipsum dolor sit amet
-                                                    consectetur,
-                                                    adipisicing elit.
-                                                    Exercitationem.</a></h5>
-                                            <p class="m-0">Authors: --</p>
-                                            <p>
-                                                <em>Ger. J. of Vet. Res.</em> 2021. <a href="issue.html"
-                                                                                       class="main-color">
-                                                    vol. 1, Iss. 1,</a> pp:1-5 <br>Doi: .....
-                                            </p>
-                                            <p>views: <span class="main-color">100</span></p>
-                                        </div>
-                                    </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="tab-pane fade p-4" id="most-recent" role="tabpanel"
@@ -241,11 +213,11 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                                             <h5 class="mb-0"><a href="/articles/{{ $journal->id }}/single/{{ $article->id }}">{{ $article->title }}</a></h5>
                                             <p class="m-0">Authors: {{ $article->authors }}</p>
                                             <p>
-                                                <em>{{ $article->journal->name }}</em> {{ $article->year }}.
+                                                <em>{{ $article->journal->abbreviation }}</em> {{ $article->year }}.
                                                 <a href="/journal/{{ $article->journal->id }}/volume/{{ $article->volume }}/issue/{{ $article->issue }}" class="main-color">vol. {{ $article->volume }}, Iss. {{ $article->issue }},</a>
                                                 pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi: {{ $article->doi }}
                                             </p>
-                                            <p>views: <span class="main-color">100</span></p>
+                                            <p>views: <span class="main-color">{{ $article->views_count }}</span></p>
                                         </div>
                                         @endforeach
                                     </div>
@@ -269,10 +241,10 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                                     <h5 class="mb-0"><a href="/articles/{{ $journal->id }}/single/{{ $inpress_article->id }}">{{ $inpress_article->title }}</a></h5>
                                     <p class="m-0">Authors: {{ $inpress_article->authors }}</p>
                                     <p>
-                                        <em>{{ $inpress_article->journal->name }}</em> {{ $inpress_article->year }}
+                                        <em>{{ $inpress_article->journal->abbreviation }}</em> {{ $inpress_article->year }}
                                         <br>Doi: {{ $inpress_article->doi }}
                                     </p>
-                                    <p>views: <span class="main-color">100</span></p>
+                                    <p>views: <span class="main-color">{{ $inpress_article->views_count }}</span></p>
                                 </div>
                                 @endforeach
                             </div>

@@ -28,11 +28,15 @@ Route::get('/about', 'User\HomeController@about')->name('about');
 
 Route::get('/contact-us', 'User\HomeController@contact')->name('contact');
 
+Route::get('/privacy-and-policy', 'User\HomeController@privacy')->name('privacy');
+
+Route::get('/open-access-policy', 'User\HomeController@openAccess')->name('open-access');
+
 /** News Routes **/
 
-Route::get('/news', 'User\NewController@allNews')->name('allnews');
+Route::get('/lnews', 'User\NewController@allNews')->name('allnews');
 
-Route::get('/news/single_new/{new}', 'User\NewController@singleNew')->name('singlenew');
+Route::get('/lnews/single_new/{new}', 'User\NewController@singleNew')->name('singlenew');
 
 /** Journal Routes **/
 
@@ -55,6 +59,10 @@ Route::get('/articles/{journal}', 'User\JournalController@articles')->name('arti
 Route::get('/articles/{journal}/single/{article}', 'User\JournalController@singleArticle')->name('singlearticle');
 
 Route::get('journal/{journal}/volume/{volume}/issue/{issue}', 'User\JournalController@issue')->name('issue');
+
+/*** Search Route ***/
+
+Route::get('/search', 'SearchController@search')->name('search');
 
 /*** Admin Routes ***/
 

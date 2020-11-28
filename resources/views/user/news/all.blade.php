@@ -1,9 +1,9 @@
 <?php
 
-use App\Article;
-use App\Journal;
-use App\Lnew;
-use App\Researchtopic;
+use App\Models\Article;
+use App\Models\Journal;
+use App\Models\Lnew;
+use App\Models\Researchtopic;
 
 $latestnews = Lnew::orderBy('id', 'desc')->paginate(4);
 $news = Lnew::orderBy('id', 'desc')->paginate(7);
@@ -105,9 +105,8 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                         <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                     </li>
                 </ul>
-                <form action="search.html" method="get" action="search.html" method="get"
-                      class="form-inline my-2 my-lg-0 relative">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                <form action="{{ route('search') }}" method="get" class="form-inline my-2 my-lg-0 relative">
+                    <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search" />
                     <button class="btn my-2 my-sm-0 absolute" type="submit">
                         <i class="fas fa-search"></i>
                     </button>
@@ -133,8 +132,8 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                     <div class="col-md-9">
                         <div class="card-body">
                             <h5 class="card-title mb-1"><a href="{{ route('singlenew', $new) }}" class="text-dark">{{ $new->title }}</a></h5>
-                            <p class="card-text"><small class="main-color">{{ $new->publish_date }}</small></p>
-                            <p class="card-text">{{ \Str::limit($new->body, 50) }}<small><a href="{{ route('singlenew', $new) }}" class="main-color">Read More</a></small></p>
+                            <p class="card-text"><small class="main-color">{{ date('F d, Y',strtotime($new->publish_date)) }}</small></p>
+                            <p class="card-text"><?php echo $new->body;?><small><a href="{{ route('singlenew', $new) }}" class="main-color">Read More</a></small></p>
                         </div>
                     </div>
                 </div>
