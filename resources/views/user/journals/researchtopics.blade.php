@@ -5,7 +5,7 @@ use App\Models\Lnew;
 use App\Models\Researchtopic;
 $rtopics = Researchtopic::where('journal_id', $journal->id)->orderBy('id', 'desc')->paginate(4);
 $journal->researchtopics = $rtopics;
-$active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
+$active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
 ?>
 
 @extends('layouts.user_layout')

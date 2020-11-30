@@ -3,7 +3,7 @@ use App\Models\Article;
 use App\Models\Journal;
 use App\Models\Lnew;
 use App\Models\Researchtopic;
-$active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
+$active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
 ?>
 
 @extends('layouts.user_layout')

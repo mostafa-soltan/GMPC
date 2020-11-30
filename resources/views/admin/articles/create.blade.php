@@ -82,12 +82,9 @@
                                 </div>
                                 <span>* {{ $xml->record->volume }}</span>
                                 <div class="form-group{{ $errors->has('volume') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-volume">{{ __('Volume No.') }}</label>
-                                    <select name="volume" class="form-control" required>
-                                        @foreach(App\Models\Volume::all() as $volume)
-                                            <option <?php if ($xml->record->volume == $volume->volume_no){echo 'selected';} ?> value="{{ $volume->volume_no }}">{{ $volume->volume_no }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label class="form-control-label" for="input-volume">{{ __('Volume') }}</label>
+                                    <input type="text" name="volume" id="input-volume" class="form-control form-control-alternative{{ $errors->has('volume') ? ' is-invalid' : '' }}" placeholder="{{ __('Volume') }}" value="{{ $xml->record->volume }}" >
+
                                     @if ($errors->has('volume'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('volume') }}</strong>
@@ -96,12 +93,9 @@
                                 </div>
                                 <span>* {{ $xml->record->issue }}</span>
                                 <div class="form-group{{ $errors->has('issue') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-issue_id">{{ __('Issue No.') }}</label>
-                                    <select name="issue" class="form-control" required>
-                                        @foreach(App\Models\Issue::all() as $issue)
-                                            <option <?php if ($xml->record->issue == $issue->issue_no){echo 'selected';} ?> value="{{ $issue->issue_no }}">{{ $issue->issue_no }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label class="form-control-label" for="input-issue">{{ __('Issue') }}</label>
+                                    <input type="text" name="issue" id="input-issue" class="form-control form-control-alternative{{ $errors->has('issue') ? ' is-invalid' : '' }}" placeholder="{{ __('Issue') }}" value="{{ $xml->record->issue }}" >
+
                                     @if ($errors->has('issue'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('issue') }}</strong>
@@ -147,7 +141,7 @@
                             </div>
                                 <div class="form-group{{ $errors->has('start_page') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-start_page">{{ __('First Page') }}</label>
-                                    <input type="number" name="start_page" id="input-start_page" class="form-control form-control-alternative{{ $errors->has('start_page') ? ' is-invalid' : '' }}" placeholder="{{ __('First Page') }}" value="{{ $xml->record->startPage }}" required autofocus>
+                                    <input type="number" name="start_page" id="input-start_page" class="form-control form-control-alternative{{ $errors->has('start_page') ? ' is-invalid' : '' }}" placeholder="{{ __('First Page') }}" value="{{ $xml->record->startPage }}" >
 
                                     @if ($errors->has('start_page'))
                                         <span class="invalid-feedback" role="alert">

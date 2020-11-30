@@ -8,8 +8,10 @@ use App\Models\Issue;
 use App\Models\Journal;
 use App\Models\Researchtopic;
 use App\Models\Volume;
+use http\Url;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use phpDocumentor\Reflection\DocBlock\Tags\See;
 
@@ -125,6 +127,7 @@ class JournalController extends Controller
 
     public function singleTopic(Journal $journal, Researchtopic $topic)
     {
+
         $volumes = Volume::all();
         $issues = Issue::all();
         return view('user.journals.single_topic', compact('topic', 'journal', 'volumes', 'issues'));
@@ -137,13 +140,20 @@ class JournalController extends Controller
         return view('user.journals.articles', compact('journal', 'volumes', 'issues'));
     }
 
-    public function singleArticle(Journal $journal, Article $article)
+    public function singleArticle(Request $request, Journal $journal, Article $article)
     {
+        if ($request->get('submit')){
+            DB::table('articles')
+                ->where(['id' => $article->id])
+                ->update(['downloads_count' => $article->downloads_count + 1]);
+        }
+
         $articleKey = 'article_' . $article->id;
         if (!Session::has($articleKey)){
             $article->increment('views_count');
             Session::put($articleKey,1);
         }
+
         $volumes = Volume::all();
         $issues = Issue::all();
         return view('user.journals.single_article', compact('article', 'journal', 'volumes', 'issues'));

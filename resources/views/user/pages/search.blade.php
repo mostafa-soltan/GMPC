@@ -8,7 +8,7 @@ $latestnews = Lnew::orderBy('id', 'desc')->paginate(4);
 $articles = Article::orderBy('id', 'desc')->paginate(4);
 $rtopics = Researchtopic::orderBy('id', 'desc')->paginate(4);
 $journals = Journal::orderBy('id', 'desc')->paginate(3);
-$active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
+$active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
 ?>
 @extends('layouts.user_layout')
 @section('content')
@@ -122,7 +122,7 @@ $active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
                     <div class="pl-3">
                         <div class="article mb-4">
                             <h5 class="mb-0"><a href="{{ $result['view_link'] }}" style="text-decoration: none; color: #222222;">{{ $result['title'] }}</a></h5>
-                            <p>{{ $result['match'] }} [ <span class="main-color">{{ $result['model'] }}</span> ] </p>
+                            <p>{{ $result['match'] }}</p>
                         </div>
                     </div>
                 @endforeach

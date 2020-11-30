@@ -80,12 +80,9 @@
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('volume') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-volume_id">{{ __('Volume No.') }}</label>
-                                    <select name="volume" class="form-control" required>
-                                        @foreach(App\Models\Volume::all() as $volume)
-                                            <option <?php if ($article->volume == $volume->volume_no){echo 'selected';} ?> value="{{ $article->volume }}">{{ $article->volume }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label class="form-control-label" for="input-volume">{{ __('Volume') }}</label>
+                                    <input type="text" name="volume" id="input-volume" class="form-control form-control-alternative{{ $errors->has('volume') ? ' is-invalid' : '' }}" placeholder="{{ __('Volume') }}" value="{{ $article->volume }}" >
+
                                     @if ($errors->has('volume'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('volume') }}</strong>
@@ -93,12 +90,9 @@
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('issue') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-issue_id">{{ __('Issue No.') }}</label>
-                                    <select name="issue" class="form-control" required>
-                                        @foreach(App\Models\Issue::all() as $issue)
-                                            <option <?php if ($article->issue == $issue->issue_no){echo 'selected';} ?> value="{{ $article->issue }}">{{ $article->issue }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label class="form-control-label" for="input-issue">{{ __('Issue') }}</label>
+                                    <input type="text" name="issue" id="input-issue" class="form-control form-control-alternative{{ $errors->has('issue') ? ' is-invalid' : '' }}" placeholder="{{ __('Issue') }}" value="{{ $article->issue }}" >
+
                                     @if ($errors->has('issue'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('issue') }}</strong>

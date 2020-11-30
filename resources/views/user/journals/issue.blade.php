@@ -4,7 +4,7 @@ use App\Models\Journal;
 use App\Models\Lnew;
 use App\Models\Researchtopic;
 
-$active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
+$active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
 $issue_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('volume', $volume->volume_no)->where('issue', $issue->issue_no)->where('status', 1)->paginate(5);
 
 ?>
@@ -185,8 +185,9 @@ $issue_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->
                                     <p>views: <span class="main-color">{{ $article->views_count }}</span></p>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
-                        @endforeach
+
                         @else
                         <p>No Articles in This Issue</p>
                         @endif

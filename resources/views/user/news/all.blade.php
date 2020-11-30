@@ -10,7 +10,7 @@ $news = Lnew::orderBy('id', 'desc')->paginate(7);
 $articles = Article::orderBy('id', 'desc')->paginate(4);
 $rtopics = Researchtopic::orderBy('id', 'desc')->paginate(4);
 $journals = Journal::orderBy('id', 'desc')->paginate(3);
-$active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
+$active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
 ?>
 @extends('layouts.user_layout')
 @section('content')

@@ -10,8 +10,8 @@ $latestnews = Lnew::orderBy('id', 'desc')->paginate(4);
 $articles = Article::orderBy('id', 'desc')->paginate(4);
 $rtopics = Researchtopic::orderBy('id', 'desc')->paginate(4);
 $journals = Journal::orderBy('id', 'desc')->paginate(3);
-$active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
-$branches = Branch::orderBy('id', 'asc')->paginate(1);
+$active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
+$branches = Branch::all();
 ?>
 @extends('layouts.user_layout')
 @section('content')
@@ -120,16 +120,16 @@ $branches = Branch::orderBy('id', 'asc')->paginate(1);
     <div class="container">
         <div class="row p-5">
             @if($branches->count())
-            @foreach($branches as $branch)
                 <div class="col-md-6">
-                    <h3 class="mb-5">{{ $branch->title }}</h3>
+                    @foreach($branches as $branch)
+                    <h3 class="mb-3">{{ $branch->title }}</h3>
                     <p>
                         <strong>Address: </strong><a href="#map">{{ $branch->address }}</a>
                     </p>
                     <p><strong>Phone: </strong> <a href="tel: +49094120636123">{{ $branch->phone }}</a></p>
-                    <p><strong>Email: </strong> <a href="mailto:info@gmpc-akademie.de" target="blank">{{ $branch->email }}</a></p>
+                    <p class="mb-5"><strong>Email: </strong> <a href="mailto:info@gmpc-akademie.de" target="blank">{{ $branch->email }}</a></p>
+                    @endforeach
                 </div>
-            @endforeach
             @else
                 <p>No Branches Found.</p>
             @endif
@@ -159,9 +159,7 @@ $branches = Branch::orderBy('id', 'asc')->paginate(1);
                 </form>
             </div>
         </div>
-        <div>
-            <nav class="d-flex justify-content-end" aria-label="...">{{ $branches->links() }}</nav>
-        </div>
+
         <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2615.076975035078!2d12.110721315681056!3d49.04715997930651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479fc1db92dc0455%3A0x90255cdd6e759f8d!2sK%C3%B6tztinger%20Str.%207%2C%2093057%20Regensburg%2C%20Germany!5e0!3m2!1sen!2seg!4v1602952296481!5m2!1sen!2seg"
             width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"

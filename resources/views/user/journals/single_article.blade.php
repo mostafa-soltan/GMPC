@@ -2,9 +2,9 @@
 use App\Models\Article;
 use App\Models\Journal;
 use App\Models\Lnew;
-use App\Models\Researchtopic;
+use App\Models\Researchtopic;use Illuminate\Support\Facades\DB;
 
-$active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
+$active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
 $articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('status', 1)->paginate(4);
 $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('status', 0)->paginate(4);
 
@@ -192,7 +192,8 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                                 <a href="{{ $article->link }}" title="Read">
                                     <i class="fab fa-readme"></i>
                                 </a>
-                                <a href="{{ $article->link }}" download="file name" title="Download">
+
+                                <a href="{{ $article->link }}" download="{{ $article->title }}" title="Read">
                                     <i class="fas fa-download"></i>
                                 </a>
                             </div>
@@ -202,7 +203,7 @@ $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal
                         <h6 class="mb-0">Keywords:</h6>
                         <p>{{ $article->keywords }}</p>
                         <h6 class="mb-0">Statistics:</h6>
-                        <p>Article Views: <span class="main-color">{{ $article->views_count }}</span></p>
+                        <p>Article Views: <span class="main-color">{{ $article->views_count }}</span> </p>
                     </article>
                 </div>
             </div>

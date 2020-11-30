@@ -26,7 +26,6 @@ class LatestnewController extends Controller
         $roles = [
             'title' => 'required|min:10|max:200',
             'body' => 'required|min:100',
-            'author' => 'required|min:3|max:50',
             'publish_date' => 'required|date',
         ];
         $this->validate($request, $roles);

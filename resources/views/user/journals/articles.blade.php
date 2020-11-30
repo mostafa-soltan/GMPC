@@ -4,7 +4,7 @@ use App\Models\Journal;
 use App\Models\Lnew;
 use App\Models\Researchtopic;
 
-$active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
+$active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
 $articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('status', 1)->paginate(4);
 $inpress_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('status', 0)->paginate(4);
 $mostviewed_articles = Article::orderBy('views_count', 'desc')->where('journal_id', $journal->id)->take(4)->get();
@@ -196,7 +196,7 @@ $mostviewed_articles = Article::orderBy('views_count', 'desc')->where('journal_i
                                                                                        class="main-color">
                                                     vol. {{ $mvarticle->volume }}, Iss. {{ $mvarticle->issue }},</a> pp:{{ $mvarticle->start_page }}-{{ $mvarticle->end_page }} <br>Doi: {{ $mvarticle->doi }}
                                             </p>
-                                            <p>views:<span class="views">{{ $mvarticle->views_count }}</span></p>
+                                            <p>views: <span class="views">{{ $mvarticle->views_count }}</span></p>
                                         </div>
                                         @endforeach
                                     </div>

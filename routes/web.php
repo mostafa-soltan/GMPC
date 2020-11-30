@@ -64,6 +64,7 @@ Route::get('journal/{journal}/volume/{volume}/issue/{issue}', 'User\JournalContr
 
 Route::get('/search', 'SearchController@search')->name('search');
 
+
 /*** Admin Routes ***/
 
 Route::group(['middleware' => ['auth', 'admin']], function () {

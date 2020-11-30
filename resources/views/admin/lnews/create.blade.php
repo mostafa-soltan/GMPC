@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('author') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-author">{{ __('Author') }}</label>
-                                    <input type="text" name="author" id="input-author" class="form-control form-control-alternative{{ $errors->has('author') ? ' is-invalid' : '' }}" placeholder="{{ __('Author') }}" value="{{ old('author') }}" required>
+                                    <input type="text" name="author" id="input-author" class="form-control form-control-alternative{{ $errors->has('author') ? ' is-invalid' : '' }}" placeholder="{{ __('Author') }}" value="{{ old('author') }}">
 
                                     @if ($errors->has('author'))
                                         <span class="invalid-feedback" role="alert">

@@ -24,11 +24,8 @@ class ResearchtopicController extends Controller
     {
         $roles = [
             'title' => 'required|min:10|max:250',
-            'overview' => 'required|min:10|max:2000',
-            'editor1' => 'min:3|max:100',
-            'editor2' => 'min:3|max:100',
-            'editor3' => 'min:3|max:100',
-            'editor4' => 'min:3|max:100',
+            'overview' => 'required|min:10',
+            'keywords' => 'required',
             'journal_id' => 'required|integer',
         ];
         $this->validate($request, $roles);

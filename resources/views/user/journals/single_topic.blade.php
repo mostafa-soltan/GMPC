@@ -4,7 +4,7 @@ use App\Models\Journal;
 use App\Models\Lnew;
 use App\Models\Researchtopic;
 
-$active_journals = Journal::orderBy('id', 'desc')->where('status', 1)->get();
+$active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
 $topic_articles = Article::orderBy('id', 'desc')->where('journal_id', $journal->id)->where('rtopic_id', $topic->id )->paginate(4);
 ?>
 
