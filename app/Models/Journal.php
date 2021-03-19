@@ -42,4 +42,9 @@ class Journal extends Model
     {
         return $this->hasMany('App\Models\Editor');
     }
+
+    //public function getRouteKeyName()
+    //{
+    //    return 'abbreviation';
+    //}
 }

@@ -45,7 +45,36 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        $article = Article::create($request->all());
+        $article = new Article();
+        $pdf_file = $request->file('pdf_file');
+        if ($pdf_file){
+
+            $pdf_filename = $pdf_file->getClientOriginalName();
+            $pdf_filename = explode('.', $pdf_filename);
+            $pdf_filename = $pdf_filename[0];
+            $pdf_extension = $pdf_file->getClientOriginalExtension();
+            $pdf_file_to_store = time() . '_' . $pdf_filename . '.' . $pdf_extension;
+
+            $pdf_file->move('articles', $pdf_file_to_store);
+
+            $article->pdf_file = $pdf_file_to_store;
+        }
+        $article->title = $request->title;
+        $article->abstract = $request->abstract;
+        $article->publication_date = $request->publication_date;
+        $article->journal_id = $request->journal_id;
+        $article->volume = $request->volume;
+        $article->issue = $request->issue;
+        $article->year = $request->year;
+        $article->rtopic_id = $request->rtopic_id;
+        $article->status = $request->status;
+        $article->start_page = $request->start_page;
+        $article->end_page = $request->end_page;
+        $article->doi = $request->doi;
+        $article->authors = $request->authors;
+        $article->keywords = $request->keywords;
+
+        $article->save();
         return redirect('admin/articles')->withStatus('Article Successfully Created.');
     }
 
@@ -61,12 +90,49 @@ class ArticleController extends Controller
 
     public function update(Request $request, Article $article)
     {
-        $article->update($request->all());
+        $article->update([
+            'title' => $request['title'],
+            'abstract' => $request['abstract'],
+            'publication_date' => $request['publication_date'],
+            'journal_id' => $request['journal_id'],
+            'volume' => $request['volume'],
+            'issue' => $request['issue'],
+            'year' => $request['year'],
+            'rtopic_id' => $request['rtopic_id'],
+            'status' => $request['status'],
+            'start_page' => $request['start_page'],
+            'end_page' => $request['end_page'],
+            'doi' => $request['doi'],
+            'authors' => $request['authors'],
+            'keywords' => $request['keywords'],
+        ]);
+
+        $pdf_file = $request->file('pdf_file');
+        if ($pdf_file){
+            $pdf_filename = $pdf_file->getClientOriginalName();
+            $pdf_filename = explode('.', $pdf_filename);
+            $pdf_filename = $pdf_filename[0];
+            $pdf_extension = $pdf_file->getClientOriginalExtension();
+            $pdf_file_to_store = time() . '_' . $pdf_filename . '.' . $pdf_extension;
+
+            if ($pdf_file->move('articles', $pdf_file_to_store)){
+                if ($article->pdf_file){
+                    unlink('articles/' . $article->pdf_file);
+                    $article->update([
+                       'pdf_file' => $pdf_file_to_store,
+                    ]);
+                }
+            }
+
+        }
         return redirect('admin/articles')->withStatus('Article Successfully Updated.');
     }
 
     public function destroy(Article $article)
     {
+        if ($article->pdf_file){
+            unlink('articles/' . $article->pdf_file);
+        }
         $article->delete();
         return redirect('/admin/articles')->withStatus('Article Successfully Deleted.');
     }

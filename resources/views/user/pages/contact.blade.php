@@ -92,7 +92,7 @@ $branches = Branch::all();
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         @if($journals->count())
                             @foreach($active_journals as $active_journal)
-                                <a class="dropdown-item" href="{{ route('journal', $active_journal) }}">{{ $active_journal->name }}</a>
+                                <a class="dropdown-item" href="{{ route('journal', $active_journal->abbreviation) }}">{{ $active_journal->name }}</a>
                             @endforeach
                         @else
                             <a class="dropdown-item" href="#">No Journals Found.</a>
@@ -134,26 +134,31 @@ $branches = Branch::all();
                 <p>No Branches Found.</p>
             @endif
             <div class="col-md-6">
-                <form action="info@gmpc-akademie.de" method="post">
+                <form action="{{ route('contactstore') }}" method="post">
+                    @csrf
                     <div class="form-group">
                         <!-- <label for="exampleInputname">Your Name(required)</label> -->
                         <input name="name" type="text" class="form-control" id="exampleInputname"
                                placeholder="Your Name" required>
+                        <div class="text-danger">{{ $errors->first('name') }}</div>
                     </div>
                     <div class="form-group">
                         <!-- <label for="exampleInputEmail1">Your Email(required)</label> -->
-                        <input name="mail" type="email" class="form-control" id="exampleInputEmail1"
+                        <input name="email" type="email" class="form-control" id="exampleInputEmail1"
                                placeholder="Your Email" required>
+                        <div class="text-danger">{{ $errors->first('email') }}</div>
                     </div>
                     <div class="form-group">
                         <!-- <label for="exampleInputsubject">Subject</label> -->
                         <input name="subject" type="text" class="form-control" id="exampleInputsbject"
-                               placeholder="Subject">
+                               placeholder="Subject" required>
+                        <div class="text-danger">{{ $errors->first('subject') }}</div>
                     </div>
                     <div class="form-group">
                         <!-- <label for="exampleInputsubject">Your Message</label> -->
                         <textarea name="message" rows="5" class="form-control" id="exampleInputsbject"
-                                  placeholder="Your Message"></textarea>
+                                  placeholder="Your Message" required></textarea>
+                        <div class="text-danger">{{ $errors->first('message') }}</div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Submit</button>
                 </form>

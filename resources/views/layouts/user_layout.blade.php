@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ $metaDescription ?? '' }}">
+
+    <meta name="keywords" content="German Journal of Veterinary Research, GMPC Thesis &amp; Opinions Platform, German Journal of Microbiology, German Multidisciplinary Publishing Center, GMPC, Veterinary, Microbiology, Knowledge Globalization, Scientific journals">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'GMPC') }}</title>
+    <title>{{ $metaTitle ?? config('app.name') }}</title>
 
     <link rel="stylesheet" type="text/css" href="{{asset('ui-assets')}}/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -78,7 +81,17 @@
     $(document).ready(function () {
 
         $('.timer').countTo();
+
+
     });
+</script>
+<script>
+    var tar = document.getElementById("btn-download");
+    var link = document.getElementById("article");
+    tar.addEventListener('click', function () {
+        link.dispatchEvent(new MouseEvent('click'));
+        console.log(link);
+    })
 </script>
 </body>
 </html>

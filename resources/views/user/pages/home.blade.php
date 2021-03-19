@@ -88,9 +88,9 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                                 Journals
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @if($journals->count())
+                                @if($active_journals->count())
                                 @foreach($active_journals as $active_journal)
-                                    <a class="dropdown-item" href="{{ route('journal', $active_journal) }}">{{ $active_journal->name }}</a>
+                                    <a class="dropdown-item" href="{{ route('journal', $active_journal->abbreviation) }}">{{ $active_journal->name }}</a>
                                 @endforeach
                                 @else
                                     <p class="dropdown-item" href="#">No Journals Found.</p>
@@ -170,14 +170,14 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                                         <div class="card-body">
                                             <h6 class="card-title mb-0">
                                                 <!-- daynamic href & title & abstract-->
-                                                <a href="/articles/{{ $article->journal->id }}/single/{{ $article->id }}">{{ $article->title }}</a>
+                                                <a href="/articles/{{ $article->journal->abbreviation }}/single/{{ $article->id }}">{{ $article->title }}</a>
                                             </h6>
-                                            <p class="main-color"><em>{{ $article->journal->name }}</em> {{ $article->year }}. <a href="/journal/{{ $article->journal->id }}/volume/{{ $article->volume }}/issue/{{ $article->issue }}"
+                                            <p class="main-color"><em>{{ $article->journal->name }}</em> {{ $article->year }}. <a href="/journal/{{ $article->journal->abbreviation }}/volume/{{ $article->volume }}/issue/{{ $article->issue }}"
                                                                                                  class="main-color"> vol. {{ $article->volume }},
                                                     Iss. {{ $article->issue }}</a> pp:{{ $article->start_page }}-{{ $article->end_page }} <br>Doi: {{ $article->doi }}</p>
                                             <p class="card-text" title="{{ $article->abstract }}">
                                                 <?php echo \Str::limit($article->abstract, 50);?>
-                                            </p><a href="/articles/{{ $article->journal->id }}/single/{{ $article->id }}"><small class="main-color">Read
+                                            </p><a href="/articles/{{ $article->journal->abbreviation }}/single/{{ $article->id }}"><small class="main-color">Read
                                                     More</small></a>
                                         </div>
                                     </div>
@@ -208,11 +208,11 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                                         <div class="card-body">
                                             <h6 class="card-title mb-0">
                                                 <!-- daynamic href & title & abstract-->
-                                                <a href="/researchtopics/{{ $topic->journal_id}}/single/{{ $topic->id }}">{{ \Str::limit($topic->title, 50) }}</a>
+                                                <a href="/researchtopics/{{ $topic->journal->abbreviation}}/single/{{ $topic->id }}">{{ \Str::limit($topic->title, 50) }}</a>
                                             </h6>
                                             <p class="main-color">{{ $topic->journal->name }}</p>
                                             <p class="card-text"><?php echo \Str::limit($topic->overview, 50);?>
-                                            </p><a href="/researchtopics/{{ $topic->journal_id }}/single/{{ $topic->id }}"><small class="main-color">Read More</small></a>
+                                            </p><a href="/researchtopics/{{ $topic->journal->abbreviation }}/single/{{ $topic->id }}"><small class="main-color">Read More</small></a>
                                         </div>
                                     </div>
                                 </article>
@@ -243,6 +243,7 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                                                 <!-- daynamic href & title & abstract-->
                                                 <a href="{{ route('singlenew', $new) }}">{{ \Str::limit($new->title, 50) }}</a>
                                             </h6>
+                                            <span class="font-weight-bold pb-4">{{ $new->author }}</span>
                                             <p class="card-text"><?php echo $new->body ;?></p>
                                             <a href="{{ route('singlenew', $new) }}"><small class="main-color">Read More</small></a>
                                         </div>
@@ -270,7 +271,7 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                     @foreach($journals as $journal)
                         <div class="col-md-4 mb-3">
                             <div class="card">
-                                <a href="{{ route('journal', $journal) }}">
+                                <a href="{{ route('journal', $journal->abbreviation) }}">
                                     @if($journal->photo)
                                         <img src="/images/{{ $journal->photo->filename }}" class="card-img-top" alt="journal-pic" />
                                     @else

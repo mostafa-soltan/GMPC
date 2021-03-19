@@ -13,7 +13,10 @@ class NewController extends Controller
 {
     public function allNews()
     {
-        return view('user.news.all');
+        $metaTitle = 'GMPC Latest News';
+        $metaDescription = 'See the GMPC latest news of science, research & GMPC journals, anopen access dynamic international publisher founded in Germany';
+        $metaKeywords = '';
+        return view('user.news.all', compact('metaTitle', 'metaDescription', 'metaKeywords'));
     }
 
     public function singleNew(Lnew $new)

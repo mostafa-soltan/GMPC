@@ -28,6 +28,8 @@ Route::get('/about', 'User\HomeController@about')->name('about');
 
 Route::get('/contact-us', 'User\HomeController@contact')->name('contact');
 
+Route::post('/contact/store', 'User\HomeController@contactStore')->name('contactstore');
+
 Route::get('/privacy-and-policy', 'User\HomeController@privacy')->name('privacy');
 
 Route::get('/open-access-policy', 'User\HomeController@openAccess')->name('open-access');
@@ -40,25 +42,25 @@ Route::get('/lnews/single_new/{new}', 'User\NewController@singleNew')->name('sin
 
 /** Journal Routes **/
 
-Route::get('/journals/{journal}', 'User\JournalController@index')->name('journal');
+Route::get('/journals/{abbreviation}', 'User\JournalController@index')->name('journal');
 
-Route::get('/scope/{journal}', 'User\JournalController@scope')->name('scope');
+Route::get('/scope/{abbreviation}', 'User\JournalController@scope')->name('scope');
 
-Route::get('/authorgl/{journal}', 'User\JournalController@authorGuidLines')->name('agl');
+Route::get('/authorgl/{abbreviation}', 'User\JournalController@authorGuidLines')->name('agl');
 
-Route::get('/authorres/{journal}', 'User\JournalController@authorResources')->name('ares');
+Route::get('/authorres/{abbreviation}', 'User\JournalController@authorResources')->name('ares');
 
-Route::get('/editorialboard/{journal}', 'User\JournalController@editorialBoard')->name('editorialboard');
+Route::get('/editorialboard/{abbreviation}', 'User\JournalController@editorialBoard')->name('editorialboard');
 
-Route::get('/researchtopics/{journal}', 'User\JournalController@researchTopics')->name('researchtopics');
+Route::get('/researchtopics/{abbreviation}', 'User\JournalController@researchTopics')->name('researchtopics');
 
-Route::get('/researchtopics/{journal}/single/{topic}', 'User\JournalController@singleTopic')->name('singletopic');
+Route::get('/researchtopics/{abbreviation}/single/{topic}', 'User\JournalController@singleTopic')->name('singletopic');
 
-Route::get('/articles/{journal}', 'User\JournalController@articles')->name('articles');
+Route::get('/articles/{abbreviation}', 'User\JournalController@articles')->name('articles');
 
-Route::get('/articles/{journal}/single/{article}', 'User\JournalController@singleArticle')->name('singlearticle');
+Route::get('/articles/{abbreviation}/single/{article}', 'User\JournalController@singleArticle')->name('singlearticle');
 
-Route::get('journal/{journal}/volume/{volume}/issue/{issue}', 'User\JournalController@issue')->name('issue');
+Route::get('journal/{abbreviation}/volume/{volume}/issue/{issue}', 'User\JournalController@issue')->name('issue');
 
 /*** Search Route ***/
 

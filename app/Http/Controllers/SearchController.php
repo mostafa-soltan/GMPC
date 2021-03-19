@@ -167,7 +167,7 @@ class SearchController extends Controller
             return Url::to(str_replace('{new}', $model->id, $mapping[$modelClass]));
         }
         // assume /{model-name}/{model_id}
-        return URL::to('/' . strtolower($modelName) . '/' . $model->journal->id . '/single/' . $model->id);
+        return URL::to('/' . strtolower($modelName) . '/' . $model->journal->abbreviation . '/single/' . $model->id);
 
     }
 }

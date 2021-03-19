@@ -34,7 +34,7 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @if($active_journals->count())
                                     @foreach($active_journals as $active_journal)
-                                        <a class="dropdown-item" href="{{ route('journal', $active_journal) }}">{{ $active_journal->name }}</a>
+                                        <a class="dropdown-item" href="{{ route('journal', $active_journal->abbreviation) }}">{{ $active_journal->name }}</a>
                                     @endforeach
                                 @else
                                     <p class="dropdown-item" href="#">No Journals Found.</p>
@@ -48,7 +48,7 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                             <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                         </li>
                     </ul>
-                    <a href="https://www.ejmanager.com/my/gjvr/index.php" target="blank"  class="btn btn-primary mr-2">SUBMIT</a>
+                    <a href="{{ $submitLink }}" target="blank"  class="btn btn-primary mr-2">SUBMIT</a>
                     <form action="{{ route('search') }}" method="get" class="form-inline my-2 my-lg-0 relative">
                         <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search" />
                         <button class="btn my-2 my-sm-0 absolute" type="submit">
@@ -70,17 +70,17 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                 <div class="collapse navbar-collapse" id="J-navbar">
                     <ul class="navbar-nav m-auto align-items-center">
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal) }}">Journal <span
+                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal->abbreviation) }}">Journal <span
                                     class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('scope', $journal) }}">Aims & Scope</a>
+                            <a class="nav-link text-uppercase" href="{{ route('scope', $journal->abbreviation) }}">Aims & Scope</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('articles', $journal) }}">Articles</a>
+                            <a class="nav-link text-uppercase" href="{{ route('articles', $journal->abbreviation) }}">Articles</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('researchtopics', $journal) }}">Research Topics</a>
+                            <a class="nav-link text-uppercase" href="{{ route('researchtopics', $journal->abbreviation) }}">Research Topics</a>
                         </li>
                         <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle text-uppercase" href="" id="navbarDropdown" role="button"
@@ -88,13 +88,13 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                                 For Authors <span class="sr-only">(current)</span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item active" href="{{ route('agl', $journal) }}">Author guidlines</a>
-                                <a class="dropdown-item" href="{{ route('ares', $journal) }}">Author resources</a>
-                                <a class="dropdown-item" href="https://www.ejmanager.com/my/gjm/index.php" target="blank">Submit</a>
+                                <a class="dropdown-item active" href="{{ route('agl', $journal->abbreviation) }}">Author guidlines</a>
+                                <a class="dropdown-item" href="{{ route('ares', $journal->abbreviation) }}">Author resources</a>
+                                <a class="dropdown-item" href="{{ $submitLink }}" target="blank">Submit</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('editorialboard', $journal) }}">editorial board</a>
+                            <a class="nav-link text-uppercase" href="{{ route('editorialboard', $journal->abbreviation) }}">editorial board</a>
                         </li>
                         <div class="social">
                             <a href="https://www.facebook.com/GMPC-104059058151398/?ti=as" title="Facebook"
@@ -141,7 +141,15 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                                             <div class="card card-body">
                                                 <ul>
                                                     @foreach($issues as $jissue)
-                                                        <li><a href="/journal/{{ $journal->id }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                        @if(isset($article_1) && $article_1->issue == $jissue->issue_no)
+                                                            <li><a href="/journal/{{ $journal->abbreviation }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                        @elseif(isset($article_2) && $article_2->issue == $jissue->issue_no)
+                                                            <li><a href="/journal/{{ $journal->abbreviation }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                        @elseif(isset($article_3) && $article_3->issue == $jissue->issue_no)
+                                                            <li><a href="/journal/{{ $journal->abbreviation }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                        @elseif(isset($article_4) && $article_4->issue == $jissue->issue_no)
+                                                            <li><a href="/journal/{{ $journal->abbreviation }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                        @endif
                                                     @endforeach
                                                 </ul>
                                             </div>

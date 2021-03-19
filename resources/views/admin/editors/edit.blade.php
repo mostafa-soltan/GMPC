@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="{{ route('editors.update', $editor) }}" autocomplete="off">
+                        <form method="post" action="{{ route('editors.update', $editor) }}" enctype="multipart/form-data" autocomplete="off">
                             @csrf
                             @method('PATCH')
 
@@ -49,6 +49,7 @@
 
                                     <select name="chief_in_editor" class="form-control">
                                         <option <?php if ($editor->chief_in_editor == 0){ echo 'selected';} ?> value="0">Editor</option>
+                                        <option <?php if ($editor->chief_in_editor == 2){ echo 'selected';} ?> value="2">Topic Editor</option>
                                         <option <?php if ($editor->chief_in_editor == 1){ echo 'selected';} ?> value="1">Editor In Chief</option>
                                     </select>
 
@@ -56,6 +57,17 @@
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('chief_in_editor') }}</strong>
                                         </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('topic') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-topic">{{ __('Topic') }}</label>
+                                    <input type="text" name="topic" id="input-topic" class="form-control form-control-alternative{{ $errors->has('topic') ? ' is-invalid' : '' }}" placeholder="{{ __('Topic') }}" value="{{ $editor->topic }}" required autofocus>
+
+                                    @if ($errors->has('topic'))
+                                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('topic') }}</strong>
+                                    </span>
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('journal_id') ? ' has-danger' : '' }}">
@@ -70,6 +82,16 @@
                                     @if ($errors->has('journal_id'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('journal_id') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="form-group{{ $errors->has('image') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-image">{{ __('Image') }}</label>
+                                    <input type="file" name="image" id="input-image" class="form-control form-control-alternative{{ $errors->has('image') ? ' is-invalid' : '' }}">
+
+                                    @if ($errors->has('image'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('image') }}</strong>
                                         </span>
                                     @endif
                                 </div>

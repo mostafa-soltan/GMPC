@@ -46,6 +46,17 @@
                                     </span>
                                     @endif
                                 </div>
+                                <div class="form-group{{ $errors->has('pdf_file') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-pdf_file">{{ __('PDF') }}</label>
+                                    <input type="file" name="pdf_file" id="input-pdf_file" class="form-control form-control-alternative{{ $errors->has('pdf_file') ? ' is-invalid' : '' }}" >
+
+                                    @if ($errors->has('pdf_file'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('pdf_file') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <!--
                                 <div class="form-group{{ $errors->has('link') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-link">{{ __('PDF Link') }}</label>
                                     <input type="text" name="link" id="input-link" class="form-control form-control-alternative{{ $errors->has('link') ? ' is-invalid' : '' }}" placeholder="{{ __('PDF Link') }}" value="{{ $article->link }}" required autofocus>
@@ -56,6 +67,7 @@
                                         </span>
                                     @endif
                                 </div>
+                                -->
                                 <div class="form-group{{ $errors->has('publication_date') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-publication_date">{{ __('Publication Date') }}</label>
                                     <input type="date" name="publication_date" id="input-publication_date" class="form-control form-control-alternative{{ $errors->has('publication_date') ? ' is-invalid' : '' }}" placeholder="{{ __('Publication Date') }}" value="{{ $article->publication_date }}" required autofocus>

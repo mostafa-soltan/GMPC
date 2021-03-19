@@ -14,7 +14,7 @@ class Article extends Model
         'title',
         'abstract',
         'publication_date',
-        'link',
+        'pdf_file',
         'doi',
         'status',
         'start_page',

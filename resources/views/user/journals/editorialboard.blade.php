@@ -1,10 +1,12 @@
 <?php
 use App\Models\Article;
+use App\Models\Editor;
 use App\Models\Journal;
 use App\Models\Lnew;
 use App\Models\Researchtopic;
 
 $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
+$topic_editors = Editor::where('chief_in_editor', 2)->whereJournalId($journal->id)->get();
 ?>
 
 @extends('layouts.user_layout')
@@ -34,7 +36,7 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @if($active_journals->count())
                                     @foreach($active_journals as $active_journal)
-                                        <a class="dropdown-item" href="{{ route('journal', $active_journal) }}">{{ $active_journal->name }}</a>
+                                        <a class="dropdown-item" href="{{ route('journal', $active_journal->abbreviation) }}">{{ $active_journal->name }}</a>
                                     @endforeach
                                 @else
                                     <p class="dropdown-item" href="#">No Journals Found.</p>
@@ -48,7 +50,7 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                             <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                         </li>
                     </ul>
-                    <a href="https://www.ejmanager.com/my/gjvr/index.php" target="blank"  class="btn btn-primary mr-2">SUBMIT</a>
+                    <a href="{{ $submitLink }}" target="blank"  class="btn btn-primary mr-2">SUBMIT</a>
                     <form action="{{ route('search') }}" method="get" class="form-inline my-2 my-lg-0 relative">
                         <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search" />
                         <button class="btn my-2 my-sm-0 absolute" type="submit">
@@ -70,16 +72,16 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                 <div class="collapse navbar-collapse" id="J-navbar">
                     <ul class="navbar-nav m-auto align-items-center">
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal) }}">Journal</a>
+                            <a class="nav-link text-uppercase" href="{{ route('journal', $journal->abbreviation) }}">Journal</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('scope', $journal) }}">Aims & Scope</a>
+                            <a class="nav-link text-uppercase" href="{{ route('scope', $journal->abbreviation) }}">Aims & Scope</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('articles', $journal) }}">Articles</a>
+                            <a class="nav-link text-uppercase" href="{{ route('articles', $journal->abbreviation) }}">Articles</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="{{ route('researchtopics', $journal) }}">Research Topics</a>
+                            <a class="nav-link text-uppercase" href="{{ route('researchtopics', $journal->abbreviation) }}">Research Topics</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-uppercase" href="" id="navbarDropdown" role="button"
@@ -87,13 +89,13 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                                 For Authors
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('agl', $journal) }}">Author guidlines</a>
-                                <a class="dropdown-item" href="{{ route('ares', $journal) }}">Author resources</a>
-                                <a class="dropdown-item" href="https://www.ejmanager.com/my/gjvr/index.php" target="blank">Submit</a>
+                                <a class="dropdown-item" href="{{ route('agl', $journal->abbreviation) }}">Author guidlines</a>
+                                <a class="dropdown-item" href="{{ route('ares', $journal->abbreviation) }}">Author resources</a>
+                                <a class="dropdown-item" href="{{ $submitLink }}" target="blank">Submit</a>
                             </div>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link text-uppercase" href="{{ route('editorialboard', $journal) }}">editorial board <span class="sr-only">(current)</span></a>
+                            <a class="nav-link text-uppercase" href="{{ route('editorialboard', $journal->abbreviation) }}">editorial board <span class="sr-only">(current)</span></a>
                         </li>
                         <div class="social">
                             <a href="https://www.facebook.com/GMPC-104059058151398/?ti=as" title="Facebook"
@@ -140,7 +142,15 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                                             <div class="card card-body">
                                                 <ul>
                                                     @foreach($issues as $jissue)
-                                                        <li><a href="/journal/{{ $journal->id }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                        @if(isset($article_1) && $article_1->issue == $jissue->issue_no)
+                                                            <li><a href="/journal/{{ $journal->abbreviation }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                        @elseif(isset($article_2) && $article_2->issue == $jissue->issue_no)
+                                                            <li><a href="/journal/{{ $journal->abbreviation }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                        @elseif(isset($article_3) && $article_3->issue == $jissue->issue_no)
+                                                            <li><a href="/journal/{{ $journal->abbreviation }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                        @elseif(isset($article_4) && $article_4->issue == $jissue->issue_no)
+                                                            <li><a href="/journal/{{ $journal->abbreviation }}/volume/{{ $jvolume->volume_no }}/issue/{{ $jissue->issue_no }}">Issue {{ $jissue->issue_no }}</a></li>
+                                                        @endif
                                                     @endforeach
                                                 </ul>
                                             </div>
@@ -166,49 +176,127 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                         </div>
                     </aside>
                 </div>
-                <div class="col-md-9">
+{{--                <div class="col-md-9">--}}
+{{--                    <article>--}}
+{{--                        <div>--}}
+{{--                            <h5 class="head pl-2">Editors-in-Chief </h5>--}}
+{{--                            @if(count($journal->editors))--}}
+{{--                                <ul>--}}
+{{--                                    @foreach($journal->editors as $editor)--}}
+{{--                                    <?php--}}
+{{--                                    if ($editor->chief_in_editor == 1)--}}
+{{--                                        {--}}
+{{--                                            echo '<li><p><strong>' . $editor->name . '</strong> <br>' . $editor->affiliation . '</p></li>';--}}
+{{--                                        }--}}
+{{--                                    ?>--}}
+{{--                                    @endforeach--}}
+{{--                                </ul>--}}
+{{--                            @else--}}
+{{--                                <p>No Editors Found.</p>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
+{{--                        <div>--}}
+{{--                            <h5 class="head pl-2">Editors </h5>--}}
+{{--                            <div class="row">--}}
+{{--                                @if(count($journal->editors))--}}
+{{--                                @foreach($journal->editors as $editor)--}}
+
+{{--                                            <?php--}}
+{{--                                                if ($editor->chief_in_editor == 0)--}}
+{{--                                                {--}}
+{{--                                                    echo '<div class="col-md-6">--}}
+{{--                                                              <ul>--}}
+{{--                                                                 <li>--}}
+{{--                                                                    <p><strong>' . $editor->name . '</strong> <br>' . $editor->affiliation . '</p>--}}
+{{--                                                                 </li>--}}
+{{--                                                               </ul>--}}
+{{--                                                          </div>';--}}
+{{--                                                }--}}
+{{--                                            ?>--}}
+
+{{--                                @endforeach--}}
+{{--                                @else--}}
+{{--                                    <p>No Editors Found.</p>--}}
+{{--                                @endif--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </article>--}}
+{{--                </div>--}}
+
+                <div class="col-md-9 E-board">
                     <article>
                         <div>
-                            <h5 class="head pl-2">Editors-in-Chief </h5>
-                            @if(count($journal->editors))
-                                <ul>
-                                    @foreach($journal->editors as $editor)
-                                    <?php
-                                    if ($editor->chief_in_editor == 1)
-                                        {
-                                            echo '<li><p><strong>' . $editor->name . '</strong> <br>' . $editor->affiliation . '</p></li>';
-                                        }
-                                    ?>
+                            <h5 class="head pl-2 mb-4">Editors-in-Chief</h5>
+                            @if($ch_topics)
+                                <div class="row E-chief  text-center">
+                                    @foreach($ch_topics as $ch_topic)
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            @if($ch_topic->photo)
+                                                <img src="/images/{{ $ch_topic->photo->filename }}" class="rounded-circle" alt="editor-picture">
+                                            @else
+                                                <img src="/images/default.jpg" alt="news-picture" class="rounded-circle" alt="editor-picture">
+                                            @endif
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $ch_topic->name }}</h5>
+                                                <p class="card-text">{{ $ch_topic->affiliation }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                     @endforeach
-                                </ul>
+                                </div>
                             @else
-                                <p>No Editors Found.</p>
+                                <p>No Editors-in-Chief Found!</p>
                             @endif
                         </div>
                         <div>
-                            <h5 class="head pl-2">Editors </h5>
-                            <div class="row">
-                                @if(count($journal->editors))
-                                @foreach($journal->editors as $editor)
-
-                                            <?php
-                                                if ($editor->chief_in_editor == 0)
-                                                {
-                                                    echo '<div class="col-md-6">
-                                                              <ul>
-                                                                 <li>
-                                                                    <p><strong>' . $editor->name . '</strong> <br>' . $editor->affiliation . '</p>
-                                                                 </li>
-                                                               </ul>
-                                                          </div>';
-                                                }
-                                            ?>
-
-                                @endforeach
-                                @else
-                                    <p>No Editors Found.</p>
-                                @endif
-                            </div>
+                            <h5 class="head pl-2">Topic Editors</h5>
+                            @if(count($topic_editors))
+                                <div class="row pt-4  text-center">
+                                    @foreach($topic_editors as $topic_editor)
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                @if($topic_editor->photo)
+                                                    <img src="/images/{{ $topic_editor->photo->filename }}" class="rounded-circle" alt="editor-picture">
+                                                @else
+                                                    <img src="/images/default.jpg" class="rounded-circle" alt="editor-picture">
+                                                @endif
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ $topic_editor->name }}</h5>
+                                                    <p class="card-text">{{ $topic_editor->affiliation }} <br>{{ $topic_editor->topic }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <p>No Topic Editors Found!</p>
+                            @endif
+                        </div>
+                        <div>
+                            <h5 class="head pl-2">Editorial Board </h5>
+                            @if(count($nor_editors))
+                                <div class="row text-center pt-4">
+                                    @foreach($nor_editors as $nor_editor)
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                @if($nor_editor->photo)
+                                                    <img src="/images/{{ $nor_editor->photo->filename }}" class="rounded-circle" alt="editor-picture">
+                                                @else
+                                                    <img src="/images/default.jpg" class="rounded-circle" alt="editor-picture">
+                                                @endif
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ $nor_editor->name }}</h5>
+                                                    <p class="card-text">{{ $nor_editor->affiliation }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <p>No Editors Found!</p>
+                            @endif
                         </div>
                     </article>
                 </div>

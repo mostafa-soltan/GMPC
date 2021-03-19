@@ -48,7 +48,15 @@
                                     <tr>
                                         <td>{{ $editor->name }}</td>
                                         <td title="{{ $editor->affiliation }}">{{ \Str::limit($editor->affiliation, 20) }}</td>
-                                        <td style="{{ $editor->chief_in_editor == 1 ? 'font-weight: bold;' : ''}}">{{ $editor->chief_in_editor == 1 ? 'Editor In Chief' : 'Editor' }}</td>
+                                        <td style="{{ $editor->chief_in_editor == 1 ? 'font-weight: bold;' : ''}}">
+                                            @if ($editor->chief_in_editor == 1)
+                                                {{'Editor In Chief'}}
+                                            @elseif($editor->chief_in_editor == 2)
+                                                {{'Topic Editor'}}
+                                            @else
+                                                {{ 'Editor' }}
+                                            @endif
+                                        </td>
                                         <td title="{{ $editor->journal->name }}">{{ \Str::limit($editor->journal->name, 20) }}</td>
                                         <td>{{ $editor->created_at->format('d/m/Y') }}</td>
                                         <td class="text-right">

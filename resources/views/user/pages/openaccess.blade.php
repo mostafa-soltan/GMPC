@@ -90,7 +90,7 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @if($journals->count())
                                     @foreach($active_journals as $active_journal)
-                                        <a class="dropdown-item" href="{{ route('journal', $active_journal) }}">{{ $active_journal->name }}</a>
+                                        <a class="dropdown-item" href="{{ route('journal', $active_journal->abbreviation) }}">{{ $active_journal->name }}</a>
                                     @endforeach
                                 @else
                                     <p class="dropdown-item" href="#">No Journals Found.</p>

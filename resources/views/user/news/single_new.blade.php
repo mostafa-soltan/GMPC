@@ -88,9 +88,9 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                             Journals
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            @if($journals->count())
+                            @if($active_journals->count())
                                 @foreach($active_journals as $active_journal)
-                                    <a class="dropdown-item" href="{{ route('journal', $active_journal) }}">{{ $active_journal->name }}</a>
+                                    <a class="dropdown-item" href="{{ route('journal', $active_journal->abbreviation) }}">{{ $active_journal->name }}</a>
                                 @endforeach
                             @else
                                 <a class="dropdown-item" href="#">No Journals Found.</a>
@@ -123,6 +123,7 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                         class="fas fa-share-alt-square"></i></a>
             </div>
             <h5>{{ $new->title }}</h5>
+            <span class="font-weight-bold pb-4">{{ $new->author }}</span>
             <div class="d-md-flex align-items-start mt-2">
                 @if($new->photo)
                     <img src="/images/{{ $new->photo->filename }}" alt="news-picture" class="order-md-2 img-fluid img-thumbnail news-pic">

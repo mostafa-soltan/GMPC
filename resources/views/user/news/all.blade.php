@@ -89,9 +89,9 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                             Journals
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            @if($journals->count())
+                            @if($active_journals->count())
                                 @foreach($active_journals as $active_journal)
-                                    <a class="dropdown-item" href="{{ route('journal', $active_journal) }}">{{ $active_journal->name }}</a>
+                                    <a class="dropdown-item" href="{{ route('journal', $active_journal->abbreviation) }}">{{ $active_journal->name }}</a>
                                 @endforeach
                             @else
                                 <a class="dropdown-item" href="#">No Journals Found.</a>
@@ -117,7 +117,9 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
 </header>
 <main class="p-md-4 latest-news">
     <div class="container">
+
         <article class="p-3">
+            <div>
             @if($news->count())
             @foreach($news as $new)
                 <div class="card mb-3">
@@ -132,6 +134,7 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
                     <div class="col-md-9">
                         <div class="card-body">
                             <h5 class="card-title mb-1"><a href="{{ route('singlenew', $new) }}" class="text-dark">{{ $new->title }}</a></h5>
+                            <span class="font-weight-bold pb-4">{{ $new->author }}</span>
                             <p class="card-text"><small class="main-color">{{ date('F d, Y',strtotime($new->publish_date)) }}</small></p>
                             <p class="card-text"><?php echo $new->body;?><small><a href="{{ route('singlenew', $new) }}" class="main-color">Read More</a></small></p>
                         </div>
@@ -142,10 +145,11 @@ $active_journals = Journal::orderBy('id', 'asc')->where('status', 1)->get();
             @else
                 <p>No News Found.</p>
             @endif
+            </div>
+            <div>
+                <nav class="d-flex justify-content-end">{{ $news->links() }}</nav>
+            </div>
         </article>
-        <div>
-            <nav class="d-flex justify-content-end" aria-label="...">{{ $news->links() }}</nav>
-        </div>
     </div>
 </main>
 @endsection
